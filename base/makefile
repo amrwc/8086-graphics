@@ -40,4 +40,4 @@ remake:
 	@echo ""
 
 run:
-	cmd /K "C:\Users\john\Documents\Stage1\bochsrc.bxrc"
+	cmd /K "[full_path]\bochsrc.bxrc"
