@@ -12,7 +12,7 @@ IMAGE=uodos
 	
 boot.bin: boot.asm print_functions_16.asm
 
-boot2.bin: boot2.asm
+boot2.bin: boot2.asm graphics_line.asm
 
 $(IMAGE).img: boot.bin boot2.bin
 #	Get the blank disk image
