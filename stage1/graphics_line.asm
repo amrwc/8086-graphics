@@ -23,8 +23,8 @@
 
 Graphics_Line:
 ; Delta X
-    mov     ax, word [x1];20
-    sub     ax, word [x0];20 - 32
+    mov     ax, word [x1]
+    sub     ax, word [x0]
 
 ; Instead of doing '(x0 < x1) ? sx=1 : sx=-1',
 ; the program does '(x1 >= x0) ? sx=1 : sx=-1' by using the subtraction in place.
@@ -60,12 +60,11 @@ Skip_Direction_Y:
     mov     [err], ax
 
 ;____________________
-Graphics_Main:
+; Graphics_Line_Main
     mov     ax, 0013h                   ; Set display mode to 320x200px, 256 colours, 1 page.
     int     10h
     mov     ah, 0Ch                     ; Draw pixel instruction
 
-Draw_Line:
     mov     cx, word [y0]               ; Column start
     mov     dx, word [x0]               ; Row start
     mov     al, 0Ch                     ; Set pixel colour to light red.
@@ -87,7 +86,7 @@ Draw_Line_Loop_Repeat:
     mov     si, word [err]              ; err -= dy
     sub     si, word [delta_y]
     mov     [err], si
-    add     dx, word [sx]               ;x0 += sx
+    add     dx, word [sx]               ; x0 += sx
 
 IF_2:
     mov     si, word [delta_x]
