@@ -22,7 +22,9 @@
 ;   end loop
 
 Graphics_Line:
-; Delta X
+%include "graphics_line_tests.asm"
+
+; Delta X:
     mov     ax, word [x1]
     sub     ax, word [x0]
 
@@ -115,10 +117,10 @@ Graphics_Done:
 
 ;____________________
 ; Data
-    x0: dw 150d                         ; Line start
-    y0: dw 100d
-    x1: dw 15d                          ; Line end
-    y1: dw 30d
+    x0: dw 0d                           ; Line start
+    y0: dw 0d
+    x1: dw 0d                           ; Line end
+    y1: dw 320d
 
     sx: dw 1d                           ; Direction variables
     sy: dw 1d
