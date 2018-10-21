@@ -18,7 +18,8 @@ Real_Mode_Start:
 
     mov     [boot_device], dl           ; Boot device number is passed in DL
 
-    call    Clear_Screen
+    mov     ax, 0003h                   ; Clear screen.
+    int     10h
 
     mov     si, boot_message            ; Display the greeting.
     call    Console_WriteLine_16
@@ -37,17 +38,7 @@ Real_Mode_Start:
     mov     dl, [boot_device]           ; Pass boot device to second stage
     jmp     9000h                       ; Jump to stage 2
 
-
 ;____________________
-Clear_Screen:
-    mov     ax, 0012h                   ; Cheeky clrscr by changing into video mode and back.
-    int     10h
-    mov     ax, 0003h
-    int     10h
-
-    ret
-
-
 Read_Failed:
     mov     si, read_failed_msg
     call    Console_WriteLine_16
@@ -56,9 +47,9 @@ Quit_Boot:
     mov     si, cannot_continue         ; Display 'Cannot continue' message
     call    Console_WriteLine_16
 
-    call    Clear_Screen
     hlt
 
+;____________________
 ; Data
 boot_device db 0
 boot_message: db 'UODos V1.0', 0

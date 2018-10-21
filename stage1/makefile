@@ -11,7 +11,6 @@ IMAGE=uodos
 	nasm -w+all -f bin -o $@ $<
 	
 boot.bin: boot.asm print_functions_16.asm
-
 boot2.bin: boot2.asm graphics_line.asm
 
 $(IMAGE).img: boot.bin boot2.bin
@@ -40,4 +39,4 @@ remake:
 	@echo ""
 
 run:
-	cmd /K "C:\Users\john\Documents\Stage1\bochsrc.bxrc"
+	cmd /K "[full_path]\bochsrc.bxrc"
