@@ -81,6 +81,7 @@ Draw_Line_Loop_Repeat:
 
 Loop_Continue:
     mov     si, word [err]              ; e2 = 2 * err
+    add     si, word [err]
     mov     [e2], si
 
 ;Update_Row
