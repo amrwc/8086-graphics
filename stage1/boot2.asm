@@ -22,7 +22,6 @@ Halt:
 ;____________________
 ; Data
 horizontal_line: db '____________________', 0
-
 goodbye_message: db 'Goodbye!', 0
 
 ;____________________

@@ -55,7 +55,7 @@ Skip_Direction_Y:
 
 ;____________________
 ; Err
-    mov     ax, word [delta_x]
+    mov     ax, word [delta_x]          ; err = dx - dy
     sub     ax, word [delta_y]
     mov     [err], ax
 
@@ -71,18 +71,18 @@ Skip_Direction_Y:
 
 Draw_Line_Loop_Repeat:
     int     10h                         ; Print pixel
-    call    Check_Conditions            ; if (x0==x1 && y0==y1) break;
-
+    jmp     Check_Conditions            ; if (x0==x1 && y0==y1) break;
+Loop_Continue:
     mov     si, word [err]              ; e2 = 2 * err
     mov     [e2], si
 
-; IF_1
+;IF_1
     mov     si, word [delta_y]          ; if (e2 > -dy)
     neg     si
     cmp     word [e2], si
     jle     IF_2
 
-; IF_1 body
+;IF_1_body
     mov     si, word [err]              ; err -= dy
     sub     si, word [delta_y]
     mov     [err], si
@@ -93,7 +93,7 @@ IF_2:
     cmp     word [e2], si
     jge     Draw_Line_Loop_Repeat
 
-; IF_2 body
+;IF_2_body
     mov     si, word [err]              ; err += dx
     add     si, word [delta_x]
     mov     [err], si
@@ -113,12 +113,12 @@ Graphics_Done:
 ;____________________
 Check_Conditions:
     cmp     dx, word [x1]               ; Check rows
-    je      Check_Columns
-    ret
-Check_Columns:
-    cmp     cx, word [y1]
+    je      Condition_2
+    jmp     Loop_Continue
+Condition_2:
+    cmp     cx, word [y1]               ; Check columns
     je      Graphics_Done
-    ret
+    jmp     Loop_Continue
 
 ;____________________
 ; Data
