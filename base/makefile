@@ -11,7 +11,6 @@ IMAGE=uodos
 	nasm -w+all -f bin -o $@ $<
 	
 boot.bin: boot.asm print_functions_16.asm
-
 boot2.bin: boot2.asm
 
 $(IMAGE).img: boot.bin boot2.bin
