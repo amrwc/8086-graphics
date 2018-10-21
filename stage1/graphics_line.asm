@@ -22,6 +22,7 @@
 ;   end loop
 
 Graphics_Line:
+%include "graphics_line_menu.asm"
 %include "graphics_line_tests.asm"
 
 ; Delta X:
@@ -69,7 +70,7 @@ Skip_Direction_Y:
 
     mov     cx, word [y0]               ; Column start
     mov     dx, word [x0]               ; Row start
-    mov     al, 0Ch                     ; Set pixel colour to light red.
+    mov     al, byte [pixel_colour]     ; Set pixel colour to light red.
 
 Draw_Line_Loop_Repeat:
     int     10h                         ; Print pixel
