@@ -60,7 +60,7 @@ Skip_Direction_Y:
     mov     [err], ax
 
 ;____________________
-; Graphics_Line_Main
+;Graphics_Line_Main
     mov     ax, 0013h                   ; Set display mode to 320x200px, 256 colours, 1 page.
     int     10h
     mov     ah, 0Ch                     ; Draw pixel instruction
@@ -71,29 +71,32 @@ Skip_Direction_Y:
 
 Draw_Line_Loop_Repeat:
     int     10h                         ; Print pixel
-    jmp     Check_Conditions            ; if (x0==x1 && y0==y1) break;
+
+    cmp     dx, word [x1]               ; if (x0==x1 && y0==y1) break;
+    jne     Loop_Continue
+    cmp     cx, word [y1]
+    je      Graphics_Done               ; break
+
 Loop_Continue:
     mov     si, word [err]              ; e2 = 2 * err
     mov     [e2], si
 
-;IF_1
+;Update_Row
     mov     si, word [delta_y]          ; if (e2 > -dy)
     neg     si
     cmp     word [e2], si
-    jle     IF_2
+    jle     Update_Column
 
-;IF_1_body
     mov     si, word [err]              ; err -= dy
     sub     si, word [delta_y]
     mov     [err], si
     add     dx, word [sx]               ; x0 += sx
 
-IF_2:
+Update_Column:
     mov     si, word [delta_x]
     cmp     word [e2], si
     jge     Draw_Line_Loop_Repeat
 
-;IF_2_body
     mov     si, word [err]              ; err += dx
     add     si, word [delta_x]
     mov     [err], si
@@ -109,16 +112,6 @@ Graphics_Done:
     mov     ax, 0003h                   ; Return to text mode
     int     10h
     ret
-
-;____________________
-Check_Conditions:
-    cmp     dx, word [x1]               ; Check rows
-    je      Condition_2
-    jmp     Loop_Continue
-Condition_2:
-    cmp     cx, word [y1]               ; Check columns
-    je      Graphics_Done
-    jmp     Loop_Continue
 
 ;____________________
 ; Data
