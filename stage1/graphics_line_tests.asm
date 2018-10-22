@@ -1,5 +1,6 @@
 ; Prevent drawing beyond boundaries.
-    cmp     word [x0], 0                ; 0 <= x0 <= 319
+;is_x0_below_0                          ; 0 <= x0 <= 319
+    cmp     word [x0], 0
     jg      is_x0_over_319
     je      is_x1_below_0
     mov     [x0], word 0
@@ -9,6 +10,7 @@ is_x0_over_319:
     jle     is_x1_below_0
     mov     [x0], word 319d
 
+;____________________
 is_x1_below_0:                          ; 0 <= x1 <= 319
     cmp     word [x1], 0
     jg      is_x1_over_319
@@ -20,6 +22,7 @@ is_x1_over_319:
     jle     is_y0_below_0
     mov     [x1], word 319d
 
+;____________________
 is_y0_below_0:                          ; 0 <= y0 <= 199
     cmp     word [y0], 0
     jg      is_y0_over_199
@@ -31,6 +34,7 @@ is_y0_over_199:
     jle     is_y1_below_0
     mov     [y0], word 199d
 
+;____________________
 is_y1_below_0:                          ; 0 <= y1 <= 199
     cmp     word [y1], 0
     jg      is_y1_over_199
