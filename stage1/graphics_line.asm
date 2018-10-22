@@ -68,16 +68,16 @@ Skip_Direction_Y:
     int     10h
     mov     ah, 0Ch                     ; Draw pixel instruction
 
-    mov     cx, word [y0]               ; Column start
-    mov     dx, word [x0]               ; Row start
+    mov     cx, word [x0]               ; Column start
+    mov     dx, word [y0]               ; Row start
     mov     al, byte [pixel_colour]
 
 Draw_Line_Loop_Repeat:
     int     10h                         ; Print pixel
 
-    cmp     dx, word [x1]               ; if (x0==x1 && y0==y1) break;
+    cmp     cx, word [x1]               ; if (x0==x1 && y0==y1) break;
     jne     Loop_Continue
-    cmp     cx, word [y1]
+    cmp     dx, word [y1]
     je      Graphics_Done               ; break
 
 Loop_Continue:
@@ -94,7 +94,7 @@ Loop_Continue:
     mov     si, word [err]              ; err -= dy
     sub     si, word [delta_y]
     mov     [err], si
-    add     dx, word [sx]               ; x0 += sx
+    add     cx, word [sx]               ; x0 += sx
 
 Update_Column:
     mov     si, word [delta_x]
@@ -104,7 +104,7 @@ Update_Column:
     mov     si, word [err]              ; err += dx
     add     si, word [delta_x]
     mov     [err], si
-    add     cx, word [sy]               ; y0 += sy
+    add     dx, word [sy]               ; y0 += sy
 
     jmp     Draw_Line_Loop_Repeat
 
@@ -119,10 +119,10 @@ Graphics_Done:
 
 ;____________________
 ; Data
-    x0: dw 0d                           ; Line start
-    y0: dw 0d
-    x1: dw 0d                           ; Line end
-    y1: dw 320d
+    x0: dw -500d                        ; Line start
+    y0: dw -500d
+    x1: dw 500d                         ; Line end
+    y1: dw 500d
 
     sx: dw 1d                           ; Direction variables
     sy: dw 1d
