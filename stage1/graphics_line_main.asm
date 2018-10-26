@@ -105,9 +105,9 @@ main_menu_option5:
     jmp     Graphics_Done
 
 main_menu_option6:
-    cmp     ah, 07h                     ; On subsequent runs, repeats the last option.
+    cmp     ah, 07h
     jne     main_menu_get_key
-    mov     [x0], word 27d              ; DEFAULT ARGUMENTS
+    mov     [x0], word 27d              ; DEFAULT COORDINATES
     mov     [y0], word 170d
     mov     [x1], word 288d
     mov     [y1], word 88d
