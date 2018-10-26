@@ -1,7 +1,7 @@
-; Default coordinates can be set in graphics_line_main_menu.asm
+; Default coordinates can be set in graphics_line_main.asm
 
 Graphics_Line:
-%include "graphics_line_main_menu.asm"
+%include "graphics_line_main.asm"
 %include "graphics_line_colour_menu.asm"
 %include "graphics_line_test_boundaries.asm"
 %include "graphics_line_test_straight.asm"
