@@ -23,7 +23,8 @@
 
 Graphics_Line:
 %include "graphics_line_menu.asm"
-%include "graphics_line_tests.asm"
+%include "graphics_line_test_boundaries.asm"
+%include "graphics_line_test_straight.asm"
 
 ; Delta X
     mov     ax, word [x1]
@@ -64,13 +65,7 @@ Skip_Direction_Y:
 
 ;____________________
 ;Graphics_Line_Main
-    mov     ax, 0013h                   ; Set display mode to 320x200px, 256 colours, 1 page.
-    int     10h
-    mov     ah, 0Ch                     ; Draw pixel instruction
-
-    mov     cx, word [x0]               ; Column start
-    mov     dx, word [y0]               ; Row start
-    mov     al, byte [pixel_colour]
+    call    Graphics_Setup
 
 Draw_Line_Loop_Repeat:
     int     10h                         ; Print pixel
@@ -118,11 +113,23 @@ Graphics_Done:
     ret
 
 ;____________________
+Graphics_Setup:
+    mov     ax, 0013h                   ; Set display mode to 320x200px, 256 colours, 1 page.
+    int     10h
+    mov     ah, 0Ch                     ; Draw pixel instruction
+
+    mov     cx, word [x0]               ; Column start
+    mov     dx, word [y0]               ; Row start
+    mov     al, byte [pixel_colour]
+
+    ret
+
+;____________________
 ; Data
-    x0: dw -500d                        ; Line start
-    y0: dw -500d
-    x1: dw 500d                         ; Line end
-    y1: dw 500d
+    x0: dw 160d                         ; Line start
+    y0: dw 197d
+    x1: dw 160d                         ; Line end
+    y1: dw 2d
 
     sx: dw 1d                           ; Direction variables
     sy: dw 1d

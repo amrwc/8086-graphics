@@ -38,12 +38,12 @@ is_y0_over_199:
 is_y1_below_0:                          ; 0 <= y1 <= 199
     cmp     word [y1], 0
     jg      is_y1_over_199
-    je      end_tests
+    je      end_test_boundaries
     mov     [y1], word 0
-    jmp     end_tests
+    jmp     end_test_boundaries
 is_y1_over_199:
     cmp     word [y1], 199d
-    jle     end_tests
+    jle     end_test_boundaries
     mov     [y1], word 199d
 
-end_tests:
+end_test_boundaries:
