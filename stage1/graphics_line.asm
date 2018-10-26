@@ -110,7 +110,7 @@ Graphics_Done:
 
     mov     ax, 0003h                   ; Return to text mode
     int     10h
-    ret
+    jmp     Graphics_Line_Menu          ; Return to the Menu
 
 ;____________________
 Graphics_Setup:

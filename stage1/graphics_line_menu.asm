@@ -1,44 +1,58 @@
-    mov     si, graphics_line_menu
+Graphics_Line_Menu:
+    mov     si, graphics_line_prompt
     call    Console_WriteLine_16
-    mov     si, graphics_line_prompt_colours
+
+    mov     si, graphics_line_prompt_colour1
     call    Console_WriteLine_16
+    mov     si, graphics_line_prompt_colour2
+    call    Console_WriteLine_16
+    mov     si, graphics_line_prompt_colour3
+    call    Console_WriteLine_16
+    mov     si, graphics_line_prompt_colour4
+    call    Console_WriteLine_16
+    mov     si, graphics_line_prompt_colour5
+    call    Console_WriteLine_16
+    mov     si, graphics_line_prompt_colour6
+    call    Console_WriteLine_16
+    mov     si, graphics_line_prompt_colour7
+    call    Console_WriteLine_16
+
     call    New_Line_16
     mov     si, graphics_line_prompt_exit
     call    Console_WriteLine_16
 
+;____________________
 Get_key:
-    mov     ah, 00h                     ; Get a keystroke
+    xor     ah, ah                      ; Get a keystroke
     int     16h
-;red:
-    cmp     ah, 13h
-    jne     green
-    mov     byte [pixel_colour], 0Ch
-    jmp     end_menu
-green:
-    cmp     ah, 22h
-    jne     blue
-    mov     byte [pixel_colour], 0Ah
-    jmp     end_menu
-blue:
-    cmp     ah, 30h
-    jne     white
-    mov     byte [pixel_colour], 09h
-    jmp     end_menu
-white:
-    cmp     ah, 11h
-    jne     exit
-    mov     byte [pixel_colour], 0Fh
-    jmp     end_menu
-exit:
-    cmp     ah, 01h
-    jne     Get_key
+
+    cmp     ah, 01h                     ; exit
+    jne     check_key
     mov     ax, 0003h                   ; Clear screen
     int     10h
     ret
 
-graphics_line_menu: db 'Choose a colour:', 0
-graphics_line_prompt_colours: db '(R)ed, (G)reen, (B)lue, (W)hite', 0
+check_key:
+    cmp     ah, 08h
+    jg      Get_key
+
+assign_colour:
+    add     ah, 7d
+    mov     [pixel_colour], ah
+    jmp     end_menu
+
+;____________________
+; Data
+graphics_line_prompt: db 'Choose a colour from 1 to 7:', 0
 graphics_line_prompt_exit: db 'Press (ESC) to leave Line Drawing', 0
 pixel_colour: db 0
+
+graphics_line_prompt_colour1: db '1: Light blue', 0
+graphics_line_prompt_colour2: db '2: Light green', 0
+graphics_line_prompt_colour3: db '3: Light cyan', 0
+graphics_line_prompt_colour4: db '4: Light red', 0
+graphics_line_prompt_colour5: db '5: Light magenta', 0
+graphics_line_prompt_colour6: db '6: Yellow', 0
+graphics_line_prompt_colour7: db '7: White', 0
 
 end_menu:
