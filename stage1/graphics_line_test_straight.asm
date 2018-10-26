@@ -7,6 +7,7 @@
     cmp     si, word [y1]
     jne     is_vertical
 
+    call    Graphics_Set_Display_Mode
     call    Graphics_Setup
     int     10h
     jmp     Graphics_Done
@@ -19,6 +20,7 @@ skip_direction_horizontal:
     mov     si, word [y0]               ; if (y0 != y0) break;
     cmp     si, word [y1]
     jne     end_test_straight
+    call    Graphics_Set_Display_Mode
     call    Graphics_Setup
 
 horizontal_repeat:
@@ -36,6 +38,7 @@ is_vertical:
     jg      skip_direction_vertical
     mov     [direction_vertical], word 1d
 skip_direction_vertical:
+    call    Graphics_Set_Display_Mode
     call    Graphics_Setup
 
 vertical_repeat:

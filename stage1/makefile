@@ -11,7 +11,7 @@ IMAGE=uodos
 	nasm -w+all -f bin -o $@ $<
 	
 boot.bin: boot.asm print_functions_16.asm
-boot2.bin: boot2.asm graphics_line.asm graphics_line_menu.asm graphics_line_test_boundaries.asm graphics_line_test_straight.asm
+boot2.bin: boot2.asm graphics_line.asm graphics_line_main_menu.asm graphics_line_colour_menu.asm graphics_line_test_boundaries.asm graphics_line_test_straight.asm graphics_line_bresenham.asm
 
 $(IMAGE).img: boot.bin boot2.bin
 #	Get the blank disk image
