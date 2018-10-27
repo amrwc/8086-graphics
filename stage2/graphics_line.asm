@@ -1,27 +1,43 @@
 ; Default coordinates can be set in graphics_line_main.asm
 
-Graphics_Line:
 %include "graphics_line_main.asm"
 %include "graphics_line_colour_menu.asm"
 %include "graphics_line_test_boundaries.asm"
 %include "graphics_line_test_straight.asm"
 
-    call    Graphics_Set_Display_Mode
-    call    Bresenham_Main
+%include "graphics_line_bresenham.asm"
+
+Graphics_Line:
+    call    Graphics_Line_Main
+
+    jmp     Graphics_Line
 
 ;____________________
 Graphics_Done:
+    push    bp
+    mov     bp, sp
+    push    ax
+
     xor     ax, ax                      ; getchar()
     int     16h
-
     mov     ax, 0003h                   ; Return to text mode
     int     10h
-    jmp     Graphics_Line_Main_Menu     ; Return to the Menu
+
+    pop     ax
+    leave
+    ret
 
 ;____________________
 Graphics_Set_Display_Mode:
+    push    bp
+    mov     bp, sp
+    push    ax
+
     mov     ax, 0013h                   ; Set display mode to 320x200px, 256 colours, 1 page.
     int     10h
+
+    pop     ax
+    leave
     ret
 
 Graphics_Setup:
@@ -30,8 +46,6 @@ Graphics_Setup:
     mov     al, byte [pixel_colour]
     mov     ah, 0Ch                     ; Draw pixel instruction
     ret
-
-%include "graphics_line_bresenham.asm"
 
 ;____________________
 ; Data
@@ -42,4 +56,4 @@ Graphics_Setup:
 
     pixel_colour: db 0
 
-graphics_line_menu_prompt_exit: db 'Press (ESC) to leave Line Drawing', 0
+graphics_line_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0

@@ -15,6 +15,8 @@ Stage_2_Start:
 
 ;____________________
 Halt:
+    mov     ax, 0003h                   ; Clear screen
+    int     10h
     mov     si, goodbye_message
     call    Console_Write_16
     hlt

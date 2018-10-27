@@ -1,4 +1,9 @@
 Graphics_Line_Colour_Menu:
+    push    bp
+    mov     bp, sp
+    push    ax
+    push    si
+
     mov     si, graphics_line_colour_menu_prompt
     call    Console_WriteLine_16
 
@@ -28,22 +33,23 @@ colour_menu_get_key:
 
     cmp     ah, 01h                     ; exit
     jne     colour_menu_check_key
-    mov     ax, 0003h                   ; Clear screen
-    int     10h
-    ret
+    call    Halt
 
 colour_menu_check_key:
     cmp     ah, 08h
     jg      colour_menu_get_key
 
-assign_colour:
-    add     ah, 7d
+    add     ah, 7d                      ; Assign colour
     mov     [pixel_colour], ah
-    jmp     end_colour_menu
+
+    pop     si
+    pop     ax
+    leave
+    ret;TODO:
 
 ;____________________
 ; Data
-graphics_line_colour_menu_prompt: db 'Choose a colour from 1 to 7:', 0
+graphics_line_colour_menu_prompt: db 'Choose a colour:', 0
 
 graphics_line_colour_menu_prompt_colour1: db '1: Light blue', 0
 graphics_line_colour_menu_prompt_colour2: db '2: Light green', 0
@@ -52,5 +58,3 @@ graphics_line_colour_menu_prompt_colour4: db '4: Light red', 0
 graphics_line_colour_menu_prompt_colour5: db '5: Light magenta', 0
 graphics_line_colour_menu_prompt_colour6: db '6: Yellow', 0
 graphics_line_colour_menu_prompt_colour7: db '7: White', 0
-
-end_colour_menu:

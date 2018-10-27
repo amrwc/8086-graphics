@@ -1,4 +1,8 @@
 ; Prevent drawing beyond boundaries.
+Test_Boundaries:
+    push    bp
+    mov     bp, sp
+
 ;is_x0_below_0                          ; 0 <= x0 <= 319
     cmp     word [x0], 0
     jg      is_x0_over_319
@@ -47,3 +51,5 @@ is_y1_over_199:
     mov     [y1], word 199d
 
 end_test_boundaries:
+    leave
+    ret
