@@ -10,7 +10,8 @@ Stage_2_Start:
     call    New_Line_16
 
 
-; Assignment Stage 1 -- draw a line using Bresenham’s algorithm.
+; Assignment Stage 2 -- draw a line using Bresenham’s algorithm,
+; but pass the values using stack.
     call    Graphics_Line
 
 ;____________________

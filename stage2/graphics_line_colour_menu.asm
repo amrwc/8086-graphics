@@ -45,7 +45,7 @@ colour_menu_check_key:
     pop     si
     pop     ax
     leave
-    ret;TODO:
+    ret
 
 ;____________________
 ; Data
