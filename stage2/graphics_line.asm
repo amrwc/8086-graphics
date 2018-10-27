@@ -8,6 +8,10 @@
 %include "graphics_line_bresenham.asm"
 
 Graphics_Line:
+    push    170d    ; y1                ; Default arguments
+    push    300d    ; x1
+    push    170d    ; y0
+    push    27d     ; x0
     call    Graphics_Line_Main
 
     jmp     Graphics_Line
@@ -41,19 +45,14 @@ Graphics_Set_Display_Mode:
     ret
 
 Graphics_Setup:
-    mov     cx, word [x0]               ; Column start
-    mov     dx, word [y0]               ; Row start
+    mov     cx, word [bp + x0]          ; Column start
+    mov     dx, word [bp + y0]          ; Row start
     mov     al, byte [pixel_colour]
     mov     ah, 0Ch                     ; Draw pixel instruction
     ret
 
 ;____________________
 ; Data
-    x0: dw 0                            ; Line start
-    y0: dw 0
-    x1: dw 0                            ; Line end
-    y1: dw 0
-
     pixel_colour: db 0
 
 graphics_line_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0

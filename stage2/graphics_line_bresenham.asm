@@ -22,7 +22,10 @@
 ;   end loop
 ;
 ; Input:
-; dw x0, x1, y0, y1
+; x0: [bp + 4]  -> [bp + x0]
+; y0: [bp + 6]  -> [bp + y0]
+; x1: [bp + 8]  -> [bp + x1]
+; y1: [bp + 10] -> [bp + y1]
 
 Bresenham_Main:
     push    bp
@@ -33,8 +36,8 @@ Bresenham_Main:
     push    si
 
 ; Delta X
-    mov     ax, word [x1]
-    sub     ax, word [x0]
+    mov     ax, word [bp + x1]
+    sub     ax, word [bp + x0]
 
 ; Instead of doing '(x0 < x1) ? sx=1 : sx=-1',
 ; the program does '(x1 >= x0) ? sx=1 : sx=-1' by using the subtraction in place.
@@ -51,8 +54,8 @@ Skip_Direction_X:
 
 ;____________________
 ; Delta Y
-    mov     ax, word [y1]
-    sub     ax, word [y0]
+    mov     ax, word [bp + y1]
+    sub     ax, word [bp + y0]
     jge     Skip_Direction_Y            ; (y1 >= y0) ? sy=1 : sy=-1
     mov     [sy], word -1d
 
@@ -76,9 +79,9 @@ Skip_Direction_Y:
 Draw_Line_Loop_Repeat:
     int     10h                         ; Print pixel
 
-    cmp     cx, word [x1]               ; if (x0==x1 && y0==y1) break;
+    cmp     cx, word [bp + x1]          ; if (x0==x1 && y0==y1) break;
     jne     Loop_Continue
-    cmp     dx, word [y1]
+    cmp     dx, word [bp + y1]
     jne     Loop_Continue
 
 ; Reset direction arguments. Only necessary for the menu to work correctly.
@@ -90,7 +93,7 @@ Draw_Line_Loop_Repeat:
     pop     cx
     pop     ax
     leave
-    ret;TODO
+    ret 8
 
 Loop_Continue:
     mov     si, word [err]              ; e2 = 2 * err

@@ -1,4 +1,11 @@
 ; Simplify the algorithm in the right conditions.
+;
+; Input:
+; x0: [bp + 4]  -> [bp + x0]
+; y0: [bp + 6]  -> [bp + y0]
+; x1: [bp + 8]  -> [bp + x1]
+; y1: [bp + 10] -> [bp + y1]
+
 Test_Straight:
     push    bp
     mov     bp, sp
@@ -6,17 +13,23 @@ Test_Straight:
     push    dx
     push    si
 
-    mov     si, word [x0]               ; if (x0 != x1) jmp is_horizontal;
-    cmp     si, word [x1]
+    mov     si, word [bp + x0]          ; if (x0 != x1) jmp is_horizontal;
+    cmp     si, word [bp + x1]
     jne     is_horizontal
-    mov     si, word [y0]               ; if (y0 != y1) jmp is_vertical;
-    cmp     si, word [y1]
+    mov     si, word [bp + y0]          ; if (y0 != y1) jmp is_vertical;
+    cmp     si, word [bp + y1]
     jne     is_vertical
 
 normal_bresenham:
+    push    word [bp + y1]
+    push    word [bp + x1]
+    push    word [bp + y0]
+    push    word [bp + x0]
+
     call    Graphics_Set_Display_Mode
     call    Bresenham_Main
     call    Graphics_Done
+
     jmp     end_test_straight
 
 ;____________________
@@ -24,15 +37,15 @@ is_horizontal:
     jg      skip_direction_horizontal   ; if (x0 > x1) don't change flag
     mov     [direction_horizontal], word 1d
 skip_direction_horizontal:
-    mov     si, word [y0]               ; if (y0 != y0) break;
-    cmp     si, word [y1]
+    mov     si, word [bp + y0]          ; if (y0 != y0) break;
+    cmp     si, word [bp + y1]
     jne     normal_bresenham
     call    Graphics_Set_Display_Mode
     call    Graphics_Setup
 
 horizontal_repeat:
     int     10h
-    cmp     cx, word [x1]
+    cmp     cx, word [bp + x1]
     jne     horizontal_continue
     call    Graphics_Done
     jmp     end_test_straight
@@ -51,7 +64,7 @@ skip_direction_vertical:
 
 vertical_repeat:
     int     10h
-    cmp     dx, word [y1]
+    cmp     dx, word [bp + y1]
     jne     vertical_continue
     call    Graphics_Done
     jmp     end_test_straight
@@ -68,7 +81,7 @@ end_test_straight:
     pop     dx
     pop     cx
     leave
-    ret;TODO:
+    ret 8
 
 ;____________________
 ; Data:
