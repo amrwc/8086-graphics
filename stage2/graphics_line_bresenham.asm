@@ -22,10 +22,11 @@
 ;   end loop
 ;
 ; Input:
-; x0: [bp + 4]  -> [bp + x0]
-; y0: [bp + 6]  -> [bp + y0]
-; x1: [bp + 8]  -> [bp + x1]
-; y1: [bp + 10] -> [bp + y1]
+; x0:       [bp + 4]  -> [bp + x0]
+; y0:       [bp + 6]  -> [bp + y0]
+; x1:       [bp + 8]  -> [bp + x1]
+; y1:       [bp + 10] -> [bp + y1]
+; px_set:   [bp + 12] -> [bp + px_set]
 ;
 ; Local variables:
 %assign sx      2   ; [bp - sx]         ; Direction variables
@@ -44,10 +45,10 @@ Bresenham_Main:
     push    dx
     push    si
 
-; Set direction variables
-    mov     [bp - sx], word 1d
+    mov     [bp - sx], word 1d          ; Set direction variables
     mov     [bp - sy], word 1d
 
+;____________________
 ; Delta X
     mov     ax, word [bp + x1]
     sub     ax, word [bp + x0]
@@ -106,7 +107,7 @@ Draw_Line_Loop_Repeat:
     pop     cx
     pop     ax
     leave
-    ret 8
+    ret 10
 
 Loop_Continue:
     mov     si, word [bp - err]         ; e2 = 2 * err
