@@ -1,5 +1,11 @@
 ; Simplify the algorithm in the right conditions.
-;is_dot
+Test_Straight:
+    push    bp
+    mov     bp, sp
+    push    cx
+    push    dx
+    push    si
+
     mov     si, word [x0]               ; if (x0 != x1) jmp is_horizontal;
     cmp     si, word [x1]
     jne     is_horizontal
@@ -7,10 +13,11 @@
     cmp     si, word [y1]
     jne     is_vertical
 
+normal_bresenham:
     call    Graphics_Set_Display_Mode
-    call    Graphics_Setup
-    int     10h
-    jmp     Graphics_Done
+    call    Bresenham_Main
+    call    Graphics_Done
+    jmp     end_test_straight
 
 ;____________________
 is_horizontal:
@@ -19,7 +26,7 @@ is_horizontal:
 skip_direction_horizontal:
     mov     si, word [y0]               ; if (y0 != y0) break;
     cmp     si, word [y1]
-    jne     end_test_straight
+    jne     normal_bresenham
     call    Graphics_Set_Display_Mode
     call    Graphics_Setup
 
@@ -27,7 +34,8 @@ horizontal_repeat:
     int     10h
     cmp     cx, word [x1]
     jne     horizontal_continue
-    je      Graphics_Done
+    call    Graphics_Done
+    jmp     end_test_straight
 
 horizontal_continue:
     add     cx, word [direction_horizontal]
@@ -45,15 +53,24 @@ vertical_repeat:
     int     10h
     cmp     dx, word [y1]
     jne     vertical_continue
-    je      Graphics_Done
+    call    Graphics_Done
+    jmp     end_test_straight
 
 vertical_continue:
     add     dx, word [direction_vertical]
     jmp     vertical_repeat
 
 ;____________________
+end_test_straight:
+    mov     [direction_horizontal], word -1d
+    mov     [direction_vertical], word -1d
+    pop     si
+    pop     dx
+    pop     cx
+    leave
+    ret;TODO:
+
+;____________________
 ; Data:
 direction_horizontal: dw -1d
 direction_vertical: dw -1d
-
-end_test_straight:

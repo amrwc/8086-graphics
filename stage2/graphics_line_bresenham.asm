@@ -25,6 +25,13 @@
 ; dw x0, x1, y0, y1
 
 Bresenham_Main:
+    push    bp
+    mov     bp, sp
+    push    ax
+    push    cx
+    push    dx
+    push    si
+
 ; Delta X
     mov     ax, word [x1]
     sub     ax, word [x0]
@@ -75,9 +82,15 @@ Draw_Line_Loop_Repeat:
     jne     Loop_Continue
 
 ; Reset direction arguments. Only necessary for the menu to work correctly.
-    mov     [sx], word 1d
+    mov     [sx], word 1d               ; break
     mov     [sy], word 1d
-    ret                                 ; break
+
+    pop     si
+    pop     dx
+    pop     cx
+    pop     ax
+    leave
+    ret;TODO
 
 Loop_Continue:
     mov     si, word [err]              ; e2 = 2 * err
