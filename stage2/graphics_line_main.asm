@@ -4,10 +4,11 @@
 ; x1: [bp + 8]  -> [bp + x1]
 ; y1: [bp + 10] -> [bp + y1]
 
-%assign x0  4
-%assign y0  6
-%assign x1  8
-%assign y1  10
+%assign x0      4
+%assign y0      6
+%assign x1      8
+%assign y1      10
+%assign px_set  12                      ; Pixel settings
 
 Graphics_Line_Main:
     push	bp
@@ -67,32 +68,32 @@ main_menu_option5:
 
     call    Graphics_Set_Display_Mode
 
+    push    word 0C0Ah
     push    word 180d
     push    word 310d
     push    word 20d
     push    word 10d
-    mov     [pixel_colour], byte 0Ah
     call    Bresenham_Main
 
+    push    word 0C0Ch
     push    word 195d
     push    word 40d
     push    word 15d
     push    word 280d
-    mov     [pixel_colour], byte 0Ch
     call    Bresenham_Main
-    
+
+    push    word 0C0Eh
     push    word 5d
     push    word 15d
     push    word 120d
     push    word 200d
-    mov     [pixel_colour], byte 0Eh
     call    Bresenham_Main
 
+    push    word 0C0Fh
     push    word 3d
     push    word 182d
     push    word 175d
     push    word 32d
-    mov     [pixel_colour], byte 0Fh
     call    Bresenham_Main
 
     call    Graphics_Done               ; Skip colour menu and tests.
@@ -112,6 +113,7 @@ end_main_menu:
     mov     ax, 0003h
     int     10h
 
+    push    word 0C00h                  ; Default pixel settings. Push for easier colour setup in subsequent menu.
     push    word [bp + y1]
     push    word [bp + x1]
     push    word [bp + y0]

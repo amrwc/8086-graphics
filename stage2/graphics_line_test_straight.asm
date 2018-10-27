@@ -1,14 +1,15 @@
 ; Simplify the algorithm in the right conditions.
 ;
 ; Input:
-; x0: [bp + 4]  -> [bp + x0]
-; y0: [bp + 6]  -> [bp + y0]
-; x1: [bp + 8]  -> [bp + x1]
-; y1: [bp + 10] -> [bp + y1]
+; x0:       [bp + 4]  -> [bp + x0]
+; y0:       [bp + 6]  -> [bp + y0]
+; x1:       [bp + 8]  -> [bp + x1]
+; y1:       [bp + 10] -> [bp + y1]
+; px_set:   [bp + 12] -> [bp + px_set]
 ;
 ; Local variables:
-%assign dir_h   2
-%assign dir_v   4
+%assign dir_h   2                       ; Direction horizontal
+%assign dir_v   4                       ; Direction vertical
 
 Test_Straight:
     push    bp
@@ -30,6 +31,7 @@ Test_Straight:
     jne     is_vertical
 
 normal_bresenham:
+    push    word [bp + px_set]
     push    word [bp + y1]
     push    word [bp + x1]
     push    word [bp + y0]
@@ -90,4 +92,4 @@ end_test_straight:
     pop     dx
     pop     cx
     leave
-    ret 8
+    ret 10
