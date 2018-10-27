@@ -26,14 +26,27 @@
 ; y0: [bp + 6]  -> [bp + y0]
 ; x1: [bp + 8]  -> [bp + x1]
 ; y1: [bp + 10] -> [bp + y1]
+;
+; Local variables:
+%assign sx      2   ; [bp - sx]         ; Direction variables
+%assign sy      4   ; [bp - sy]
+%assign delta_x 6   ; [bp - delta_x]
+%assign delta_y 8   ; [bp - delta_y]
+%assign err     10  ; [bp - err]
+%assign e2      12  ; [bp - e2]
 
 Bresenham_Main:
     push    bp
     mov     bp, sp
+    sub     sp, 12
     push    ax
     push    cx
     push    dx
     push    si
+
+; Set direction variables
+    mov     [bp - sx], word 1d
+    mov     [bp - sy], word 1d
 
 ; Delta X
     mov     ax, word [bp + x1]
@@ -42,7 +55,7 @@ Bresenham_Main:
 ; Instead of doing '(x0 < x1) ? sx=1 : sx=-1',
 ; the program does '(x1 >= x0) ? sx=1 : sx=-1' by using the subtraction in place.
     jge     Skip_Direction_X
-    mov     [sx], word -1d
+    mov     [bp - sx], word -1d
 
 Skip_Direction_X:
 ; cwd -- Convert word to doubleword, i.e. extend the sign bit of AX into DX.
@@ -50,27 +63,27 @@ Skip_Direction_X:
     xor     ax, dx
     sub     ax, dx
 
-    mov     [delta_x], ax               ; Store delta X
+    mov     [bp - delta_x], ax          ; Store delta X
 
 ;____________________
 ; Delta Y
     mov     ax, word [bp + y1]
     sub     ax, word [bp + y0]
     jge     Skip_Direction_Y            ; (y1 >= y0) ? sy=1 : sy=-1
-    mov     [sy], word -1d
+    mov     [bp - sy], word -1d
 
 Skip_Direction_Y:
     cwd                                 ; abs(dy)
     xor     ax, dx
     sub     ax, dx
 
-    mov     [delta_y], ax               ; Store delta Y
+    mov     [bp - delta_y], ax          ; Store delta Y
 
 ;____________________
 ; Err
-    mov     ax, word [delta_x]          ; err = dx - dy
-    sub     ax, word [delta_y]
-    mov     [err], ax
+    mov     ax, word [bp - delta_x]     ; err = dx - dy
+    sub     ax, word [bp - delta_y]
+    mov     [bp - err], ax
 
     call    Graphics_Setup
 
@@ -85,8 +98,8 @@ Draw_Line_Loop_Repeat:
     jne     Loop_Continue
 
 ; Reset direction arguments. Only necessary for the menu to work correctly.
-    mov     [sx], word 1d               ; break
-    mov     [sy], word 1d
+    mov     [bp - sx], word 1d          ; break
+    mov     [bp - sy], word 1d
 
     pop     si
     pop     dx
@@ -96,38 +109,29 @@ Draw_Line_Loop_Repeat:
     ret 8
 
 Loop_Continue:
-    mov     si, word [err]              ; e2 = 2 * err
-    add     si, word [err]
-    mov     [e2], si
+    mov     si, word [bp - err]         ; e2 = 2 * err
+    add     si, word [bp - err]
+    mov     [bp - e2], si
 
 ;Update_Row
-    mov     si, word [delta_y]          ; if (e2 > -dy)
+    mov     si, word [bp - delta_y]     ; if (e2 > -dy)
     neg     si
-    cmp     word [e2], si
+    cmp     word [bp - e2], si
     jle     Update_Column
 
-    mov     si, word [err]              ; err -= dy
-    sub     si, word [delta_y]
-    mov     [err], si
-    add     cx, word [sx]               ; x0 += sx
+    mov     si, word [bp - err]         ; err -= dy
+    sub     si, word [bp - delta_y]
+    mov     [bp - err], si
+    add     cx, word [bp - sx]          ; x0 += sx
 
 Update_Column:
-    mov     si, word [delta_x]
-    cmp     word [e2], si
+    mov     si, word [bp - delta_x]
+    cmp     word [bp - e2], si
     jge     Draw_Line_Loop_Repeat
 
-    mov     si, word [err]              ; err += dx
-    add     si, word [delta_x]
-    mov     [err], si
-    add     dx, word [sy]               ; y0 += sy
+    mov     si, word [bp - err]         ; err += dx
+    add     si, word [bp - delta_x]
+    mov     [bp - err], si
+    add     dx, word [bp - sy]          ; y0 += sy
 
     jmp     Draw_Line_Loop_Repeat
-
-;____________________
-; Data
-    sx: dw 1d                           ; Direction variables
-    sy: dw 1d
-    delta_x: dw 0
-    delta_y: dw 0
-    err: dw 0
-    e2: dw 0
