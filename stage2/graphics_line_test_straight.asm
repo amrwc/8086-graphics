@@ -5,13 +5,22 @@
 ; y0: [bp + 6]  -> [bp + y0]
 ; x1: [bp + 8]  -> [bp + x1]
 ; y1: [bp + 10] -> [bp + y1]
+;
+; Local variables:
+%assign dir_h   2
+%assign dir_v   4
 
 Test_Straight:
     push    bp
     mov     bp, sp
+    sub     sp, 4
     push    cx
     push    dx
     push    si
+
+; Set direction variables
+    mov     [bp - dir_h], word -1d
+    mov     [bp - dir_v], word -1d
 
     mov     si, word [bp + x0]          ; if (x0 != x1) jmp is_horizontal;
     cmp     si, word [bp + x1]
@@ -35,7 +44,7 @@ normal_bresenham:
 ;____________________
 is_horizontal:
     jg      skip_direction_horizontal   ; if (x0 > x1) don't change flag
-    mov     [direction_horizontal], word 1d
+    mov     [bp - dir_h], word 1d
 skip_direction_horizontal:
     mov     si, word [bp + y0]          ; if (y0 != y0) break;
     cmp     si, word [bp + y1]
@@ -51,13 +60,13 @@ horizontal_repeat:
     jmp     end_test_straight
 
 horizontal_continue:
-    add     cx, word [direction_horizontal]
+    add     cx, word [bp - dir_h]
     jmp     horizontal_repeat
 
 ;____________________
 is_vertical:
     jg      skip_direction_vertical
-    mov     [direction_vertical], word 1d
+    mov     [bp - dir_v], word 1d
 skip_direction_vertical:
     call    Graphics_Set_Display_Mode
     call    Graphics_Setup
@@ -70,20 +79,15 @@ vertical_repeat:
     jmp     end_test_straight
 
 vertical_continue:
-    add     dx, word [direction_vertical]
+    add     dx, word [bp - dir_v]
     jmp     vertical_repeat
 
 ;____________________
 end_test_straight:
-    mov     [direction_horizontal], word -1d
-    mov     [direction_vertical], word -1d
+    mov     [bp - dir_h], word -1d
+    mov     [bp - dir_v], word -1d
     pop     si
     pop     dx
     pop     cx
     leave
     ret 8
-
-;____________________
-; Data:
-direction_horizontal: dw -1d
-direction_vertical: dw -1d
