@@ -127,6 +127,9 @@ end_rectangle_menu:
 
 ;____________________
 Graphics_Rectangle_Menu:
+    mov     ax, 0003h                   ; Clear screen
+    int     10h
+
     push    word graphics_rectangle_menu_prompt
     call    Console_WriteLine_16
 

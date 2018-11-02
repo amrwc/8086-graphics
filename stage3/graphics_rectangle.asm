@@ -9,7 +9,7 @@ Graphics_Rectangle:
     push    50d    ; x0
     call    Graphics_Rectangle_Main
 
-    jmp     Graphics_Rectangle
+    ret
 
 ;____________________
 Graphics_Rectangle_Setup:
