@@ -1,11 +1,11 @@
 ORG 9000h
     jmp    Stage_3_Start
 
-%include "print_functions_16.asm"
+%include "print_functions_16_SF.asm"
 %include "graphics_rectangle.asm"
 
 Stage_3_Start:
-    mov     si, horizontal_line
+    push    word horizontal_line
     call    Console_WriteLine_16
     call    New_Line_16
 
@@ -16,27 +16,22 @@ Stage_3_Start:
 Halt:
     mov     ax, 0003h                   ; Clear screen
     int     10h
-    mov     si, goodbye_message
+    push    word goodbye_message
     call    Console_Write_16
     hlt
 
 ;____________________
 Graphics_Set_Display_Mode:
-    push    bp
-    mov     bp, sp
     push    ax
 
     mov     ax, 0013h                   ; Set display mode to 320x200px, 256 colours, 1 page.
     int     10h
 
     pop     ax
-    leave
     ret
 
 ;____________________
 Graphics_Done:
-    push    bp
-    mov     bp, sp
     push    ax
 
     xor     ax, ax                      ; getchar()
@@ -45,7 +40,6 @@ Graphics_Done:
     int     10h
 
     pop     ax
-    leave
     ret
 
 ;____________________

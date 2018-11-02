@@ -3,6 +3,9 @@ Graphics_Colour_Menu:
     mov     bp, sp
     push    ax
 
+    mov     ax, 0003h                   ; Clear screen
+    int     10h
+
     call    Colour_Menu
 
 ;____________________
@@ -29,34 +32,28 @@ colour_menu_check_key:
 
 ;____________________
 Colour_Menu:
-    push    bp
-    mov     bp, sp
-    push    si
-
-    mov     si, graphics_colour_menu_prompt
+    push    word graphics_colour_menu_prompt
     call    Console_WriteLine_16
 
-    mov     si, graphics_colour_menu_prompt_colour1
+    push    word graphics_colour_menu_prompt_colour1
     call    Console_WriteLine_16
-    mov     si, graphics_colour_menu_prompt_colour2
+    push    word graphics_colour_menu_prompt_colour2
     call    Console_WriteLine_16
-    mov     si, graphics_colour_menu_prompt_colour3
+    push    word graphics_colour_menu_prompt_colour3
     call    Console_WriteLine_16
-    mov     si, graphics_colour_menu_prompt_colour4
+    push    word graphics_colour_menu_prompt_colour4
     call    Console_WriteLine_16
-    mov     si, graphics_colour_menu_prompt_colour5
+    push    word graphics_colour_menu_prompt_colour5
     call    Console_WriteLine_16
-    mov     si, graphics_colour_menu_prompt_colour6
+    push    word graphics_colour_menu_prompt_colour6
     call    Console_WriteLine_16
-    mov     si, graphics_colour_menu_prompt_colour7
+    push    word graphics_colour_menu_prompt_colour7
     call    Console_WriteLine_16
 
     call    New_Line_16
-    mov     si, graphics_menu_prompt_exit
+    push    word graphics_menu_prompt_exit
     call    Console_WriteLine_16
 
-    pop     si
-    leave
     ret
 
 ;____________________

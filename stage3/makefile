@@ -10,7 +10,7 @@ IMAGE=uodos
 %.bin: %.asm
 	nasm -w+all -f bin -o $@ $<
 	
-boot.bin: boot.asm print_functions_16.asm
+boot.bin: boot.asm print_functions_16_SF.asm
 boot2.bin: boot2.asm graphics_rectangle.asm graphics_rectangle_main.asm graphics_colour_menu.asm graphics_rectangle_algorithm.asm
 
 $(IMAGE).img: boot.bin boot2.bin
