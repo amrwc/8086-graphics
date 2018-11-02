@@ -1,5 +1,6 @@
 %include "graphics_rectangle.asm"
 %include "graphics_circle.asm"
+%include "graphics_rect_circ.asm"
 %include "graphics_colour_menu.asm"
 
 Graphics_Main:
@@ -22,8 +23,14 @@ main_menu_option1:
 
 main_menu_option2:
     cmp     ah, 03h
-    jne     main_menu_get_key
+    jne     main_menu_option3
     call    Graphics_Circle
+    jmp     end_main_menu
+
+main_menu_option3:
+    cmp     ah, 04h
+    jne     main_menu_get_key
+    call    Graphics_Rect_Circ
 
 end_main_menu:
     jmp     Graphics_Main
@@ -59,6 +66,8 @@ Graphics_Main_Menu:
     call    Console_WriteLine_16
     push    word graphics_main_menu_option2
     call    Console_WriteLine_16
+    push    word graphics_main_menu_option3
+    call    Console_WriteLine_16
 
     call    New_Line_16
     push    word graphics_menu_prompt_exit
@@ -71,4 +80,5 @@ Graphics_Main_Menu:
 graphics_main_menu_prompt: db 'Choose the shape:', 0
 graphics_main_menu_option1: db '1: Rectangle', 0
 graphics_main_menu_option2: db '2: Circle', 0
+graphics_main_menu_option3: db '3: Both of the above -- Vitruvian Man', 0
 graphics_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0
