@@ -39,13 +39,13 @@ Draw_Rectangle_Repeat:
     add     cx, word [bp - rect_sx]
 Draw_Rectangle_Inner:
     int     10h
-    cmp     cx, word [bp + rect_x1]     ; Is column equal to end column?
-    jnz     Draw_Rectangle_Repeat
+    cmp     cx, word [bp + rect_x1]     ; if (x != x1) continue;
+    jne     Draw_Rectangle_Repeat
 
     mov     cx, [bp + rect_x0]          ; Get back to the start of the line.
     add     dx, [bp - rect_sy]
-    cmp     dx, word [bp + rect_y1]     ; Is row equal to end row?
-    jnz     Draw_Rectangle_Inner
+    cmp     dx, word [bp + rect_y1]     ; if (y = y1) break;
+    jne     Draw_Rectangle_Inner
 
     pop     si
     pop     dx

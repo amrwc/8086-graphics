@@ -99,8 +99,8 @@ circle_test2:
     jmp     circle_test_exit
 
 circle_test2_execute:
-    add     [bp - x], word 1d
-    mov     si, word [bp - x]           ; err += ++x*2+1
+    add     [bp - x], word 1d           ; err += ++x*2+1
+    mov     si, word [bp - x]
     add     si, si
     inc     si
     add     [bp - err], si

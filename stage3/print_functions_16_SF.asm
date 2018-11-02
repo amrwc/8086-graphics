@@ -1,7 +1,10 @@
 ; Common functions for writing to the console using BIOS interrupts.
-; Input: [bp + 4] points to a null-terminated string.
+;
+; Input:
+; [bp + 4] -- a null-terminated string
+
 Console_Write_16:
-    push 	bp                          ; Setup
+    push 	bp
 	mov		bp, sp
 	push	si
 	push	ax
@@ -11,9 +14,9 @@ Console_Write_16:
 Console_Write_16_Repeat:
     mov     al, [si]                    ; Assign value from SI memory address.
     inc     si                          ; si++
-    test    al, al                      ; If the AL byte is 0...
-    je      Console_Write_16_Done       ; ...the loop should end.
-    int     10h                         ; Output character to screen.
+    test    al, al                      ; if (AL == 0) break;
+    je      Console_Write_16_Done
+    int     10h                         ; Output the current character.
     jmp     Console_Write_16_Repeat
 
 Console_Write_16_Done:
