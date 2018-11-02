@@ -1,4 +1,6 @@
 %include "graphics_rectangle.asm"
+%include "graphics_circle.asm"
+%include "graphics_colour_menu.asm"
 
 Graphics_Main:
     call    Graphics_Main_Menu
@@ -19,9 +21,9 @@ main_menu_option1:
     jmp     end_main_menu
 
 main_menu_option2:
-    cmp     ah, 02h
+    cmp     ah, 03h
     jne     main_menu_get_key
-;    call    Graphics_Circle
+    call    Graphics_Circle
 
 end_main_menu:
     jmp     Graphics_Main
