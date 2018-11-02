@@ -120,6 +120,7 @@ end_rectangle_menu:
     push    word [bp + rect_x0]
 
     call    Graphics_Colour_Menu
+    call    Graphics_Set_Display_Mode
     call    Graphics_Rectangle_Algorithm
     call    Graphics_Done
 
