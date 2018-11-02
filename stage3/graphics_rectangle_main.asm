@@ -110,9 +110,6 @@ rectangle_menu_option6:                 ; Use default coordinates
 
 ;____________________
 end_rectangle_menu:
-    mov     ax, 0003h
-    int     10h
-
     push    word 0C00h                  ; Default pixel settings. Push for easier colour setup in subsequent menu.
     push    word [bp + rect_y1]
     push    word [bp + rect_x1]
@@ -130,32 +127,26 @@ end_rectangle_menu:
 
 ;____________________
 Graphics_Rectangle_Menu:
-    push    bp
-    mov     bp, sp
-    push    si
-
-    mov     si, graphics_rectangle_menu_prompt
+    push    word graphics_rectangle_menu_prompt
     call    Console_WriteLine_16
 
-    mov     si, graphics_rectangle_menu_option1
+    push    word graphics_rectangle_menu_option1
     call    Console_WriteLine_16
-    mov     si, graphics_rectangle_menu_option2
+    push    word graphics_rectangle_menu_option2
     call    Console_WriteLine_16
-    mov     si, graphics_rectangle_menu_option3
+    push    word graphics_rectangle_menu_option3
     call    Console_WriteLine_16
-    mov     si, graphics_rectangle_menu_option4
+    push    word graphics_rectangle_menu_option4
     call    Console_WriteLine_16
-    mov     si, graphics_rectangle_menu_option5
+    push    word graphics_rectangle_menu_option5
     call    Console_WriteLine_16
-    mov     si, graphics_rectangle_menu_option6
+    push    word graphics_rectangle_menu_option6
     call    Console_WriteLine_16
 
     call    New_Line_16
-    mov     si, graphics_menu_prompt_exit
+    push    word graphics_menu_prompt_exit
     call    Console_WriteLine_16
 
-    pop     si
-    leave
     ret
 
 ;____________________
