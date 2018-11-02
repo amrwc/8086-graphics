@@ -32,7 +32,13 @@ Graphics_Circle_Algorithm:
     push    dx
     push    si
 
-; Setup
+    mov     si, word [bp + circ_r]      ; if (r < 0) r = -r;
+    cmp     si, word 0d
+    jge     circle_setup
+    neg     si
+    mov     [bp + circ_r], si
+
+circle_setup:
     mov     si, word [bp + circ_r]      ; x = -r
     neg     si
     mov     [bp - x], si
