@@ -1,12 +1,12 @@
 %include "graphics_rectangle_main.asm"
-%include "graphics_colour_menu.asm"
 %include "graphics_rectangle_algorithm.asm"
 
 Graphics_Rectangle:
-    push    150d   ; y1               ; Default arguments
-    push    190d   ; x1
+    push    50d    ; x0                 ; Default arguments
     push    50d    ; y0
-    push    50d    ; x0
+    push    190d   ; x1
+    push    150d   ; y1
+    push    0d     ; pixel settings placeholder
     call    Graphics_Rectangle_Main
 
     ret

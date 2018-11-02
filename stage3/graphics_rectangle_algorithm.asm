@@ -1,9 +1,9 @@
 ; Input:
-;     x0: [bp + 4] -> [bp + rect_x0]
-;     y0: [bp + 6] -> [bp + rect_y0]
-;     x1: [bp + 8] -> [bp + rect_x1]
-;     y1: [bp + 10] -> [bp + rect_y1]
-; colour: [bp + 12] -> [bp + px_set]
+; x0: [bp + 12] -> [bp + rect_x0]
+; y0: [bp + 10] -> [bp + rect_y0]
+; x1: [bp + 8]  -> [bp + rect_x1]
+; y1: [bp + 6]  -> [bp + rect_y1]
+; px: [bp + 4]  -> [bp + px_set]
 
 %assign rect_sx  2
 %assign rect_sy  4

@@ -1,14 +1,15 @@
 ; Input:
-; x0: [bp + 4] -> [bp + rect_x0]
-; y0: [bp + 6] -> [bp + rect_y0]
-; x1: [bp + 8] -> [bp + rect_x1]
-; y1: [bp + 10 ] -> [bp + rect_y1]
+; x0: [bp + 12] -> [bp + rect_x0]
+; y0: [bp + 10] -> [bp + rect_y0]
+; x1: [bp + 8]  -> [bp + rect_x1]
+; y1: [bp + 6]  -> [bp + rect_y1]
+; px: [bp + 4]  -> [bp + px_set]
 
-%assign rect_x0  4
-%assign rect_y0  6
+%assign rect_x0  12
+%assign rect_y0  10
 %assign rect_x1  8
-%assign rect_y1  10
-%assign px_set   12
+%assign rect_y1  6
+%assign px_set   4
 
 Graphics_Rectangle_Main:
     push	bp
@@ -68,32 +69,32 @@ rectangle_menu_option5:
 
     call    Graphics_Set_Display_Mode
 
-    push    word 0C0Ah
-    push    word 60d
-    push    word 100d
-    push    word 20d
-    push    word 50d
+    push    word 50d    ; x0
+    push    word 20d    ; y0
+    push    word 100d   ; x1
+    push    word 60d    ; y1
+    push    word 0C0Ah  ; px_set
     call    Graphics_Rectangle_Algorithm
 
-    push    word 0C0Ch
-    push    word 80d
-    push    word 230d
+    push    word 200d
     push    word 15d
-    push    word 200d
+    push    word 230d
+    push    word 80d
+    push    word 0C0Ch
     call    Graphics_Rectangle_Algorithm
 
-    push    word 0C0Eh
-    push    word 195d
-    push    word 200d
-    push    word 160d
     push    word 300d
+    push    word 160d
+    push    word 200d
+    push    word 195d
+    push    word 0C0Eh
     call    Graphics_Rectangle_Algorithm
 
-    push    word 0C0Fh
-    push    word 144d
-    push    word 32d
-    push    word 175d
     push    word 107d
+    push    word 175d
+    push    word 32d
+    push    word 144d
+    push    word 0C0Fh
     call    Graphics_Rectangle_Algorithm
 
     call    Graphics_Done               ; Skip colour menu.
@@ -102,7 +103,7 @@ rectangle_menu_option5:
 
     pop     ax
     leave
-    ret 8
+    ret 10
     
 rectangle_menu_option6:                 ; Use default coordinates
     cmp     ah, 07h
@@ -110,11 +111,11 @@ rectangle_menu_option6:                 ; Use default coordinates
 
 ;____________________
 end_rectangle_menu:
-    push    word 0C00h                  ; Default pixel settings. Push for easier colour setup in subsequent menu.
-    push    word [bp + rect_y1]
-    push    word [bp + rect_x1]
-    push    word [bp + rect_y0]
     push    word [bp + rect_x0]
+    push    word [bp + rect_y0]
+    push    word [bp + rect_x1]
+    push    word [bp + rect_y1]
+    push    word 0C00h                  ; Default pixel settings.
 
     call    Graphics_Colour_Menu
     call    Graphics_Set_Display_Mode
@@ -123,7 +124,7 @@ end_rectangle_menu:
 
     pop     ax
     leave
-    ret 8
+    ret 10
 
 ;____________________
 Graphics_Rectangle_Menu:
