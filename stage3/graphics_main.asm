@@ -77,8 +77,8 @@ Graphics_Main_Menu:
 
 ;____________________
 ; Data
-graphics_main_menu_prompt: db 'Choose the shape:', 0
+graphics_main_menu_prompt: db 'Choose a shape:', 0
 graphics_main_menu_option1: db '1: Rectangle', 0
 graphics_main_menu_option2: db '2: Circle', 0
-graphics_main_menu_option3: db '3: Both of the above -- Vitruvian Man', 0
+graphics_main_menu_option3: db '3: Both a rectangle and a circle -- Vitruvian Man', 0
 graphics_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0

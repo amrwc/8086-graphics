@@ -1,3 +1,4 @@
+; Vitruvian Man drawing
 Graphics_Rect_Circ:
     push    ax
 
@@ -16,7 +17,7 @@ Graphics_Rect_Circ:
     push    word 0C0Eh  ; px_set
     call    Graphics_Circle_Algorithm
 
-    call    Graphics_Done               ; Skip colour menu.
+    call    Graphics_Done
     mov     ax, 0003h
     int     10h
 

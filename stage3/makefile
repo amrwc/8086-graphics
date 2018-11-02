@@ -27,8 +27,6 @@ clean:
 	rm -f boot2.bin
 	rm -f $(IMAGE).img
 	rm -f $(IMAGE).img.lock
-	@echo ""
-	@echo ""
 
 remake:
 	make clean
