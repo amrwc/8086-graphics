@@ -33,7 +33,6 @@ rect_test_sy:
 rect_test_end:
 
     call    Graphics_Rectangle_Setup
-    call    Graphics_Set_Display_Mode
 
     jmp     Draw_Rectangle_Inner        ; Skip the first inc.
 
