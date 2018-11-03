@@ -12,7 +12,7 @@ Graphics_Rect_Circ:
     call    Graphics_Rectangle_Algorithm
 
     push    word 160d   ; xm
-    push    word 87d    ; ym
+    push    word 88d    ; ym
     push    word 72d    ; r
     push    word 0C0Eh  ; px_set
     call    Graphics_Circle_Algorithm
