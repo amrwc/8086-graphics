@@ -1,12 +1,15 @@
 ; Input:
 ; x0: [bp + 12] -> [bp + rect_x0]
 ; y0: [bp + 10] -> [bp + rect_y0]
-; x1: [bp + 8]  -> [bp + rect_x1]
-; y1: [bp + 6]  -> [bp + rect_y1]
+;  w: [bp + 8]  -> [bp + rect_w]
+;  h: [bp + 6]  -> [bp + rect_h]
 ; px: [bp + 4]  -> [bp + px_set]
 
-%assign rect_sx  2
-%assign rect_sy  4
+%assign rect_row_end  2
+%assign rect_col_end  4
+
+%include "graphics_rectangle_test_dimensions.asm"
+%include "graphics_rectangle_test_boundaries.asm"
 
 Graphics_Rectangle_Algorithm:
     push    bp
@@ -16,36 +19,36 @@ Graphics_Rectangle_Algorithm:
     push    dx
     push    si
 
-    mov     [bp - rect_sx], word 1d
-    mov     [bp - rect_sy], word 1d
-
 ;____________________
-; Direction tests
-    mov     si, word [bp + rect_x0]     ; if (x0 > x1) sx = -1;
-    cmp     si, word [bp + rect_x1]
-    jle     rect_test_sy
-    mov     [bp - rect_sx], word -1d
-rect_test_sy:
-    mov     si, word [bp + rect_y0]     ; if (y0 > y1) sy = -1;
-    cmp     si, word [bp + rect_y1]
-    jle     rect_test_end
-    mov     [bp - rect_sy], word -1d
-rect_test_end:
+; Setup
+    call    Graphics_Rectangle_Test_Dimensions
 
-    call    Graphics_Rectangle_Setup
+    mov     si, word [bp + rect_x0]     ; Column end
+    add     si, word [bp + rect_w]
+    mov     [bp - rect_row_end], si
+    mov     si, word [bp + rect_y0]     ; Row end
+    add     si, word [bp + rect_h]
+    mov     [bp - rect_col_end], si
+
+    call    Graphics_Rectangle_Test_Boundaries
+
+    mov     cx, word [bp + rect_x0]     ; Column start
+    mov     dx, word [bp + rect_y0]     ; Row start
+    mov     ax, word [bp + px_set]      ; AH: 0Ch, AL: colour
+
     jmp     Draw_Rectangle_Inner        ; Skip the first inc.
 
 Draw_Rectangle_Repeat:
-    add     cx, word [bp - rect_sx]
+    inc     cx
 Draw_Rectangle_Inner:
     int     10h
-    cmp     cx, word [bp + rect_x1]     ; if (x != x1) continue;
+    cmp     cx, word [bp - rect_row_end]; if (x != w) continue;
     jne     Draw_Rectangle_Repeat
 
     mov     cx, [bp + rect_x0]          ; Get back to the start of the line.
-    add     dx, [bp - rect_sy]
-    cmp     dx, word [bp + rect_y1]     ; if (y = y1) break;
-    jne     Draw_Rectangle_Inner
+    inc     dx
+    cmp     dx, word [bp - rect_col_end]; if (y = h) break;
+    jle     Draw_Rectangle_Inner
 
     pop     si
     pop     dx
