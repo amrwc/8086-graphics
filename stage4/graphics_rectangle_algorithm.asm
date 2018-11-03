@@ -1,54 +1,67 @@
 ; Input:
 ; x0: [bp + 12] -> [bp + rect_x0]
 ; y0: [bp + 10] -> [bp + rect_y0]
-; x1: [bp + 8]  -> [bp + rect_x1]
-; y1: [bp + 6]  -> [bp + rect_y1]
+;  w: [bp + 8]  -> [bp + rect_w]
+;  h: [bp + 6]  -> [bp + rect_h]
 ; px: [bp + 4]  -> [bp + px_set]
 
-%assign rect_sx  2
-%assign rect_sy  4
+%assign circ_next_row 2
+
+%include "graphics_rectangle_test_dimensions.asm"
+%include "graphics_rectangle_test_boundaries.asm"
 
 Graphics_Rectangle_Algorithm:
     push    bp
     mov     bp, sp
-    sub     sp, 4
+    sub     sp, 2
+    push    es
+    push    di
+    push    ax
     push    cx
     push    dx
     push    si
 
-    mov     [bp - rect_sx], word 1d
-    mov     [bp - rect_sy], word 1d
-
 ;____________________
-; Direction tests
-    mov     si, word [bp + rect_x0]     ; if (x0 > x1) sx = -1;
-    cmp     si, word [bp + rect_x1]
-    jle     rect_test_sy
-    mov     [bp - rect_sx], word -1d
-rect_test_sy:
-    mov     si, word [bp + rect_y0]     ; if (y0 > y1) sy = -1;
-    cmp     si, word [bp + rect_y1]
-    jle     rect_test_end
-    mov     [bp - rect_sy], word -1d
-rect_test_end:
+; Setup
+    call    Graphics_Rectangle_Test_Dimensions
+    call    Graphics_Rectangle_Test_Boundaries
 
-    call    Graphics_Rectangle_Setup
-    jmp     Draw_Rectangle_Inner        ; Skip the first inc.
+    mov     si, 0A000h                  ; Segment of display memory
+    mov     es, si
+
+; Offset on screen: di = 320*y + x -> di = 256*y + 64*y + x
+    mov     di, [bp + rect_y0]
+    shl     di, 8                       ; di *= 2^8 -> di *= 256
+    mov     si, [bp + rect_y0]
+    shl     si, 6                       ; si *= 2^6 -> si *= 64
+    add     di, si                      ; di = 256y + 64y
+    add     di, [bp + rect_x0]          ; di += x
+
+    mov     si, 320d                    ; Row incrementer
+    sub     si, [bp + rect_w]
+    mov     [bp - circ_next_row], si
+
+    mov     ax, [bp + px_set]           ; Colour
+    xor     si, si                      ; Loop index
+
+    cld                                 ; Clear direction flag -- stos increments CX by 1
 
 Draw_Rectangle_Repeat:
-    add     cx, word [bp - rect_sx]
-Draw_Rectangle_Inner:
-    int     10h
-    cmp     cx, word [bp + rect_x1]     ; if (x != x1) continue;
-    jne     Draw_Rectangle_Repeat
+    mov     cx, [bp + rect_w]           ; Reset the counter.
+    rep     stosb                       ; Place AL (colour byte) at DI (screen offset).
+    add     di, [bp - circ_next_row]    ; Go to the next row.
 
-    mov     cx, [bp + rect_x0]          ; Get back to the start of the line.
-    add     dx, [bp - rect_sy]
-    cmp     dx, word [bp + rect_y1]     ; if (y = y1) break;
-    jne     Draw_Rectangle_Inner
+    inc     si
+    cmp     si, word [bp + rect_h]      ; if (SI > height) break;
+    jl      Draw_Rectangle_Repeat
 
+;____________________
+; Return
     pop     si
     pop     dx
     pop     cx
+    pop     ax
+    pop     di
+    pop     es
     leave
     ret 10
