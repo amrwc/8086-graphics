@@ -6,8 +6,8 @@ Graphics_Rect_Circ:
 
     push    word 100d   ; x0
     push    word 40d    ; y0
-    push    word 220d   ; x1
-    push    word 160d   ; y1
+    push    word 120d   ; w
+    push    word 120d   ; h
     push    word 0C09h  ; px_set
     call    Graphics_Rectangle_Algorithm
 
