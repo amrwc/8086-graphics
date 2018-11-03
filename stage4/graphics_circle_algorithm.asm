@@ -28,6 +28,7 @@ Graphics_Circle_Algorithm:
     push    bp
     mov     bp, sp
     sub     sp, 6
+    push    ax
     push    cx
     push    dx
     push    si
@@ -113,5 +114,6 @@ circle_test_exit:
     pop     si
     pop     dx
     pop     cx
+    pop     ax
     leave
     ret 8

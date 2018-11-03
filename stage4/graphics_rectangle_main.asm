@@ -1,15 +1,15 @@
 ; Input:
 ; x0: [bp + 12] -> [bp + rect_x0]
 ; y0: [bp + 10] -> [bp + rect_y0]
-; x1: [bp + 8]  -> [bp + rect_x1]
-; y1: [bp + 6]  -> [bp + rect_y1]
+;  w: [bp + 8]  -> [bp + rect_w]
+;  h: [bp + 6]  -> [bp + rect_h]
 ; px: [bp + 4]  -> [bp + px_set]
 
-%assign rect_x0  12
-%assign rect_y0  10
-%assign rect_x1  8
-%assign rect_y1  6
-%assign px_set   4
+%assign rect_x0 12
+%assign rect_y0 10
+%assign rect_w  8
+%assign rect_h  6
+%assign px_set  4
 
 Graphics_Rectangle_Main:
     push	bp
@@ -32,8 +32,8 @@ rectangle_menu_option1:
     jne     rectangle_menu_option2
     mov     [bp + rect_x0], word 50d
     mov     [bp + rect_y0], word 20d
-    mov     [bp + rect_x1], word 100d
-    mov     [bp + rect_y1], word 60d
+    mov     [bp + rect_w], word 50d
+    mov     [bp + rect_h], word 40d
     jmp     end_rectangle_menu
 
 rectangle_menu_option2:
@@ -41,26 +41,26 @@ rectangle_menu_option2:
     jne     rectangle_menu_option3
     mov     [bp + rect_x0], word 200d
     mov     [bp + rect_y0], word 15d
-    mov     [bp + rect_x1], word 230d
-    mov     [bp + rect_y1], word 80d
+    mov     [bp + rect_w], word 30d
+    mov     [bp + rect_h], word 65d
     jmp     end_rectangle_menu
 
 rectangle_menu_option3:
     cmp     ah, 04h
     jne     rectangle_menu_option4
-    mov     [bp + rect_x0], word 300d
+    mov     [bp + rect_x0], word 200d
     mov     [bp + rect_y0], word 160d
-    mov     [bp + rect_x1], word 200d
-    mov     [bp + rect_y1], word 195d
+    mov     [bp + rect_w], word 100d
+    mov     [bp + rect_h], word 35d
     jmp     end_rectangle_menu
 
 rectangle_menu_option4:
     cmp     ah, 05h
     jne     rectangle_menu_option5
-    mov     [bp + rect_x0], word 107d
-    mov     [bp + rect_y0], word 175d
-    mov     [bp + rect_x1], word 32d
-    mov     [bp + rect_y1], word 144d
+    mov     [bp + rect_x0], word 32d
+    mov     [bp + rect_y0], word 144d
+    mov     [bp + rect_w], word 75d
+    mov     [bp + rect_h], word 31d
     jmp     end_rectangle_menu
 
 rectangle_menu_option5:
@@ -71,29 +71,29 @@ rectangle_menu_option5:
 
     push    word 50d    ; x0
     push    word 20d    ; y0
-    push    word 100d   ; x1
-    push    word 60d    ; y1
+    push    word 50d    ; w
+    push    word 40d    ; h
     push    word 0C0Ah  ; px_set
     call    Graphics_Rectangle_Algorithm
 
     push    word 200d
     push    word 15d
-    push    word 230d
-    push    word 80d
+    push    word 30d
+    push    word 65d
     push    word 0C0Ch
     call    Graphics_Rectangle_Algorithm
 
-    push    word 300d
-    push    word 160d
     push    word 200d
-    push    word 195d
+    push    word 160d
+    push    word 100d
+    push    word 35d
     push    word 0C0Eh
     call    Graphics_Rectangle_Algorithm
 
-    push    word 107d
-    push    word 175d
     push    word 32d
     push    word 144d
+    push    word 75d
+    push    word 31d
     push    word 0C0Fh
     call    Graphics_Rectangle_Algorithm
 
@@ -113,8 +113,8 @@ rectangle_menu_option6:                 ; Use default coordinates
 end_rectangle_menu:
     push    word [bp + rect_x0]
     push    word [bp + rect_y0]
-    push    word [bp + rect_x1]
-    push    word [bp + rect_y1]
+    push    word [bp + rect_w]
+    push    word [bp + rect_h]
     push    word 0C00h                  ; Default pixel settings.
 
     call    Graphics_Colour_Menu
