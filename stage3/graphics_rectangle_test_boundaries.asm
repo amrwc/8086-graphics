@@ -12,7 +12,7 @@ is_rect_x0_negative:
 is_rect_x0_over_319:
     cmp     [bp + rect_x0], word 319d
     jle     is_row_end_beyond_boundary
-    mov     si, word 319d
+    mov     si, 319d
     sub     si, word [bp + rect_w]
     mov     [bp + rect_x0], si
     mov     [bp - rect_row_end], word 319d
@@ -20,7 +20,7 @@ is_rect_x0_over_319:
 is_row_end_beyond_boundary:
     cmp     [bp - rect_row_end], word 319d
     jle     is_rect_y0_negative
-    mov     si, word 319d
+    mov     si, 319d
     sub     si, word [bp + rect_w]
     mov     [bp + rect_x0], si
     mov     [bp - rect_row_end], word 319d
@@ -37,7 +37,7 @@ is_rect_y0_negative:
 is_rect_y0_over_199:
     cmp     [bp + rect_y0], word 199d
     jle     is_col_end_beyond_boundary
-    mov     si, word 199d
+    mov     si, 199d
     sub     si, word [bp + rect_h]
     mov     [bp + rect_y0], si
     mov     [bp - rect_col_end], word 199d
@@ -45,7 +45,7 @@ is_rect_y0_over_199:
 is_col_end_beyond_boundary:
     cmp     [bp - rect_col_end], word 199d
     jle     end_rect_test_boundaries
-    mov     si, word 199d
+    mov     si, 199d
     sub     si, word [bp + rect_h]
     mov     [bp + rect_y0], si
     mov     [bp - rect_col_end], word 199d
