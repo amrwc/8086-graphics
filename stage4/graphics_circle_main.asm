@@ -1,7 +1,7 @@
 ; Input:
-; xm: [bp + 10]
-; ym: [bp + 8]
-;  r: [bp + 6]
+; xm: [bp + 8]
+; ym: [bp + 6]
+;  r: [bp + 4]
 
 Graphics_Circle_Main:
     push    bp
