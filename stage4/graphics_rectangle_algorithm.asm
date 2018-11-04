@@ -5,10 +5,15 @@
 ;  h: [bp + 6]  -> [bp + rect_h]
 ; px: [bp + 4]  -> [bp + px_set]
 
+%assign rect_x0 12
+%assign rect_y0 10
+%assign rect_w  8
+%assign rect_h  6
+%assign px_set  4
+
 %assign circ_next_row 2
 
-%include "graphics_rectangle_test_dimensions.asm"
-%include "graphics_rectangle_test_boundaries.asm"
+%include "graphics_rectangle_tests.asm"
 
 Graphics_Rectangle_Algorithm:
     push    bp
@@ -23,8 +28,7 @@ Graphics_Rectangle_Algorithm:
 
 ;____________________
 ; Setup
-    call    Graphics_Rectangle_Test_Dimensions
-    call    Graphics_Rectangle_Test_Boundaries
+    call    Graphics_Rectangle_Tests
 
     mov     si, 0A000h                  ; Segment of display memory
     mov     es, si
