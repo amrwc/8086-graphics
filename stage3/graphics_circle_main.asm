@@ -82,8 +82,6 @@ circle_menu_option5:
     call    Graphics_Circle_Algorithm
 
     call    Graphics_Done               ; Skip colour menu.
-    mov     ax, 0003h
-    int     10h
 
     pop     ax
     leave
