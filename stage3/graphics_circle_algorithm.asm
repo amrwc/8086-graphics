@@ -20,9 +20,16 @@
 ;  r: [bp + 6]  -> [bp + circ_r]
 ; px: [bp + 4]  -> [bp + px_set]
 
+%assign circ_xm 10
+%assign circ_ym 8
+%assign circ_r  6
+%assign px_set  4
+
 %assign x   2
 %assign y   4
 %assign err 6
+
+%include "graphics_circle_tests.asm"
 
 Graphics_Circle_Algorithm:
     push    bp
@@ -32,13 +39,9 @@ Graphics_Circle_Algorithm:
     push    dx
     push    si
 
-    mov     si, word [bp + circ_r]      ; if (r < 0) r = -r;
-    cmp     si, word 0d
-    jge     circle_setup
-    neg     si
-    mov     [bp + circ_r], si
+; Setup
+    call    Graphics_Circle_Tests
 
-circle_setup:
     mov     si, word [bp + circ_r]      ; x = -r
     neg     si
     mov     [bp - x], si
@@ -50,7 +53,7 @@ circle_setup:
     mov     [bp - err], word 2d
     sub     [bp - err], si
 
-    mov     ax, word [bp + px_set]
+    mov     ax, word [bp + px_set]      ; Set draw pixel instruction and colour.
 
 Draw_Circle_Repeat:
     mov     cx, word [bp + circ_xm]     ; 1st quadrant
