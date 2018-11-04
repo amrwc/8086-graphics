@@ -18,8 +18,5 @@ Graphics_Rect_Circ:
     call    Graphics_Circle_Algorithm
 
     call    Graphics_Done
-    mov     ax, 0003h
-    int     10h
-
     pop     ax
     ret

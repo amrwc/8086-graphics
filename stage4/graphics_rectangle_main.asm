@@ -12,8 +12,8 @@
 %assign px_set  4
 
 Graphics_Rectangle_Main:
-    push	bp
-	mov		bp, sp
+    push    bp
+    mov     bp, sp
     push    ax
 
     call    Graphics_Rectangle_Menu
