@@ -2,10 +2,9 @@
 %include "graphics_circle_algorithm.asm"
 
 Graphics_Circle:
-    push    130d   ; xm                 ; Def args: X-centre
-    push    110d   ; ym                 ;           Y-centre
-    push    -50d   ; r                  ;           radius
-    push    0d     ; px_set placeholder
+    push    word 130d ; xm              ; Def args: X-centre
+    push    word 110d ; ym              ;           Y-centre
+    push    word 50d  ; r               ;           radius
     call    Graphics_Circle_Main
 
     ret
