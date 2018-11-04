@@ -22,9 +22,9 @@ circle_menu_get_key:
 circle_menu_option1:
     cmp     ah, 02h
     jne     circle_menu_option2
-    push    word 50d
-    push    word 50d
-    push    word 25d
+    push    word 50d    ; xm
+    push    word 50d    ; ym
+    push    word 25d    ; radius
     jmp     end_circle_menu
 
 circle_menu_option2:
@@ -139,9 +139,9 @@ Graphics_Circle_Menu:
 ;____________________
 ; Data
 graphics_circle_menu_prompt: db 'Choose one of the options below:', 0
-graphics_circle_menu_option1: db '1: (50, 50), r = 25', 0
-graphics_circle_menu_option2: db '2: (150, 80), r = 37', 0
-graphics_circle_menu_option3: db '3: (250, 140) r = 55', 0
+graphics_circle_menu_option1: db '1: (50, 50)    r = 25', 0
+graphics_circle_menu_option2: db '2: (150, 80)   r = 37', 0
+graphics_circle_menu_option3: db '3: (250, 140)  r = 55', 0
 graphics_circle_menu_option4: db '4: (-555, 777) r = -888', 0
 graphics_circle_menu_option5: db '5: Draw all of the above.', 0
 graphics_circle_menu_option6: db '6: Use default coordinates.', 0
