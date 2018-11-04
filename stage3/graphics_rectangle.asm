@@ -2,11 +2,10 @@
 %include "graphics_rectangle_algorithm.asm"
 
 Graphics_Rectangle:
-    push    50d    ; x0                 ; Default arguments
-    push    50d    ; y0
-    push    140d   ; width
-    push    100d   ; height
-    push    0d     ; pixel settings placeholder
+    push    word 50d    ; x0            ; Default arguments
+    push    word 50d    ; y0
+    push    word 140d   ; width
+    push    word 100d   ; height
     call    Graphics_Rectangle_Main
 
     ret

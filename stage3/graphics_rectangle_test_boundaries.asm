@@ -16,6 +16,7 @@ is_rect_x0_over_319:
     sub     si, word [bp + rect_w]
     mov     [bp + rect_x0], si
     mov     [bp - rect_row_end], word 319d
+    jmp     is_rect_y0_negative
 
 is_row_end_beyond_boundary:
     cmp     [bp - rect_row_end], word 319d
@@ -41,6 +42,7 @@ is_rect_y0_over_199:
     sub     si, word [bp + rect_h]
     mov     [bp + rect_y0], si
     mov     [bp - rect_col_end], word 199d
+    jmp     end_rect_test_boundaries
 
 is_col_end_beyond_boundary:
     cmp     [bp - rect_col_end], word 199d
