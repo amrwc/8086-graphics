@@ -16,10 +16,10 @@ Graphics_Rectangle_Algorithm:
     sub     sp, 2
     push    es
     push    di
+    push    si
     push    ax
     push    cx
     push    dx
-    push    si
 
 ;____________________
 ; Setup
@@ -31,9 +31,9 @@ Graphics_Rectangle_Algorithm:
 
 ; Offset on screen: di = 320*y + x -> di = 256*y + 64*y + x
     mov     di, [bp + rect_y0]
-    shl     di, 8                       ; di *= 2^8 -> di *= 256
+    shl     di, 8                       ; di *= 2**8 -> di *= 256
     mov     si, [bp + rect_y0]
-    shl     si, 6                       ; si *= 2^6 -> si *= 64
+    shl     si, 6                       ; si *= 2**6 -> si *= 64
     add     di, si                      ; di = 256y + 64y
     add     di, [bp + rect_x0]          ; di += x
 
@@ -57,10 +57,10 @@ Draw_Rectangle_Repeat:
 
 ;____________________
 ; Return
-    pop     si
     pop     dx
     pop     cx
     pop     ax
+    pop     si
     pop     di
     pop     es
     leave

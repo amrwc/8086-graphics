@@ -10,8 +10,8 @@
 %assign px_set  4
 
 Graphics_Circle_Main:
-    push	bp
-	mov		bp, sp
+    push    bp
+    mov     bp, sp
     push    ax
 
     call    Graphics_Circle_Menu
@@ -54,7 +54,7 @@ circle_menu_option4:
     jne     circle_menu_option5
     mov     [bp + circ_xm], word 32d
     mov     [bp + circ_ym], word 166d
-    mov     [bp + circ_r], word 21d
+    mov     [bp + circ_r], word -21d
     jmp     end_circle_menu
 
 circle_menu_option5:
@@ -148,6 +148,6 @@ graphics_circle_menu_prompt: db 'Choose one of the options below:', 0
 graphics_circle_menu_option1: db '1: (50, 50), r = 25', 0
 graphics_circle_menu_option2: db '2: (170, 80), r = 37', 0
 graphics_circle_menu_option3: db '3: (250, 140) r = 55', 0
-graphics_circle_menu_option4: db '4: (32, 166) r = 21', 0
+graphics_circle_menu_option4: db '4: (32, 166) r = -21', 0
 graphics_circle_menu_option5: db '5: Draw all of the above.', 0
 graphics_circle_menu_option6: db '6: Use default coordinates.', 0
