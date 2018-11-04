@@ -1,4 +1,4 @@
-; 8086 Assembly Bresenham’s line drawing algorithm.
+; 8086 Assembly Bresenham’s line drawing algorithm implementation.
 ; Pseudo-code:
 ;
 ; function drawLine(x0, y0, x1, y1, colour)
@@ -22,29 +22,58 @@
 ;   end loop
 ;
 ; Input:
-; x0:       [bp + 4]  -> [bp + x0]
-; y0:       [bp + 6]  -> [bp + y0]
-; x1:       [bp + 8]  -> [bp + x1]
-; y1:       [bp + 10] -> [bp + y1]
-; px_set:   [bp + 12] -> [bp + px_set]
-;
+; x0: [bp + 12] -> [bp + x0]
+; y0: [bp + 10] -> [bp + y0]
+; x1: [bp + 8]  -> [bp + x1]
+; y1: [bp + 6]  -> [bp + y1]
+; px: [bp + 4]  -> [bp + px_set]
+
+%assign x0     12
+%assign y0     10
+%assign x1     8
+%assign y1     6
+%assign px_set 4
+
 ; Local variables:
-%assign sx      2   ; [bp - sx]         ; Direction variables
-%assign sy      4   ; [bp - sy]
-%assign delta_x 6   ; [bp - delta_x]
-%assign delta_y 8   ; [bp - delta_y]
-%assign err     10  ; [bp - err]
-%assign e2      12  ; [bp - e2]
+%assign straight 2  ; [bp - straight]
+%assign sx       4  ; [bp - sx]         ; Direction variables
+%assign sy       6  ; [bp - sy]
+%assign delta_x  8  ; [bp - delta_x]
+%assign delta_y  10 ; [bp - delta_y]
+%assign err      12 ; [bp - err]
+%assign e2       14 ; [bp - e2]
+
+%include "graphics_line_test_boundaries.asm"
+%include "graphics_line_test_straight.asm"
+%include "graphics_line_straight.asm"
 
 Bresenham_Main:
     push    bp
     mov     bp, sp
-    sub     sp, 12
+    sub     sp, 14
     push    ax
     push    cx
     push    dx
     push    si
 
+; Tests
+    mov     [bp - straight], word 0
+    call    Graphics_Line_Test_Boundaries
+    call    Graphics_Line_Test_Straight
+
+    cmp     [bp - straight], word 1d
+    jl      Draw_Bresenham
+    je      Draw_Horizontal
+
+;Draw_Vertical:
+    call    Graphics_Line_Vertical
+    jmp     end_draw_line
+
+Draw_Horizontal:
+    call    Graphics_Line_Horizontal
+    jmp     end_draw_line
+
+Draw_Bresenham:
     mov     [bp - sx], word 1d          ; Set direction variables
     mov     [bp - sy], word 1d
 
@@ -86,10 +115,12 @@ Skip_Direction_Y:
     sub     ax, word [bp - delta_y]
     mov     [bp - err], ax
 
-    call    Graphics_Setup
+; Setup
+    mov     cx, word [bp + x0]          ; Column start
+    mov     dx, word [bp + y0]          ; Row start
+    mov     ax, word [bp + px_set]      ; AH: 0Ch, AL: colour
 
 ;____________________
-;Graphics_Line_Algorithm
 Draw_Line_Loop_Repeat:
     int     10h                         ; Print pixel
 
@@ -98,10 +129,7 @@ Draw_Line_Loop_Repeat:
     cmp     dx, word [bp + y1]
     jne     Loop_Continue
 
-; Reset direction arguments. Only necessary for the menu to work correctly.
-    mov     [bp - sx], word 1d          ; break
-    mov     [bp - sy], word 1d
-
+end_draw_line:                          ; break
     pop     si
     pop     dx
     pop     cx
