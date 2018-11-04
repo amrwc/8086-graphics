@@ -1,11 +1,12 @@
 ORG 9000h
-    jmp    Stage_3_Start
+    jmp    Stage_4_Start
 
 %include "print_functions_16_SF.asm"
 %include "graphics_main.asm"
 
-; Assignment Stage 3 -- draw a rectangle and a circle.
-Stage_3_Start:
+; Assignment Stage 4 -- draw a rectangle and a circle
+; by writing directly to the video memory.
+Stage_4_Start:
     push    word horizontal_line
     call    Console_WriteLine_16
     call    New_Line_16

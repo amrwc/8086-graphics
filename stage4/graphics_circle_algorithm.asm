@@ -14,32 +14,42 @@
 ;   } while (x < 0);
 ; }
 ;
+; Offset on screen:
+; es = A000h
+; di = 320*y + x   ->   di = 256*y + 64*y + x
+;
 ; Input:
 ; xm: [bp + 10] -> [bp + circ_xm]
 ; ym: [bp + 8]  -> [bp + circ_ym]
 ;  r: [bp + 6]  -> [bp + circ_r]
 ; px: [bp + 4]  -> [bp + px_set]
 
+%assign circ_xm 10
+%assign circ_ym 8
+%assign circ_r  6
+%assign px_set  4
+
 %assign x   2
 %assign y   4
 %assign err 6
+
+%include "graphics_circle_tests.asm"
 
 Graphics_Circle_Algorithm:
     push    bp
     mov     bp, sp
     sub     sp, 6
+    push    es
+    push    di
+    push    si
     push    ax
     push    cx
     push    dx
-    push    si
 
-    mov     si, word [bp + circ_r]      ; if (r < 0) r = -r;
-    cmp     si, word 0d
-    jge     circle_setup
-    neg     si
-    mov     [bp + circ_r], si
+;____________________
+; Setup
+    call    Graphics_Circle_Tests
 
-circle_setup:
     mov     si, word [bp + circ_r]      ; x = -r
     neg     si
     mov     [bp - x], si
@@ -51,40 +61,65 @@ circle_setup:
     mov     [bp - err], word 2d
     sub     [bp - err], si
 
-    mov     ax, word [bp + px_set]
+    mov     si, 0A000h                  ; Segment of display memory
+    mov     es, si
+    mov     cx, word 1d                 ; Set stosb counter to 1
+    mov     ax, word [bp + px_set]      ; Set colour
 
+;____________________
 Draw_Circle_Repeat:
-    mov     cx, word [bp + circ_xm]     ; 1st quadrant
-    sub     cx, word [bp - x]
-    mov     dx, word [bp + circ_ym]
-    add     dx, word [bp - y]
-    int     10h
+    mov     si, word [bp + circ_ym] ;y  ; 1st quadrant
+    add     si, word [bp - y]
+    mov     di, si
+    shl     di, 8                       ; di *= 2**8 -> di *= 256
+    shl     si, 6                       ; si *= 2**6 -> si *= 64
+    add     di, si                      ; di = 256y + 64y
+    mov     si, word [bp + circ_xm] ;x
+    sub     si, word [bp - x]
+    add     di, si                      ; di += x
+    stosb
 
-    mov     cx, word [bp + circ_xm]     ; 2nd quadrant
-    sub     cx, word [bp - y]
-    mov     dx, word [bp + circ_ym]
-    sub     dx, word [bp - x]
-    int     10h
+    mov     si, word [bp + circ_ym]     ; 2nd quadrant
+    sub     si, word [bp - x]
+    mov     di, si
+    shl     di, 8
+    shl     si, 6
+    add     di, si
+    mov     si, word [bp + circ_xm]
+    sub     si, word [bp - y]
+    add     di, si
+    stosb
 
-    mov     cx, word [bp + circ_xm]     ; 3rd quadrant
-    add     cx, word [bp - x]
-    mov     dx, word [bp + circ_ym]
-    sub     dx, word [bp - y]
-    int     10h
+    mov     si, word [bp + circ_ym]     ; 3rd quadrant
+    sub     si, word [bp - y]
+    mov     di, si
+    shl     di, 8
+    shl     si, 6
+    add     di, si
+    mov     si, word [bp + circ_xm]
+    add     si, word [bp - x]
+    add     di, si
+    stosb
 
-    mov     cx, word [bp + circ_xm]     ; 4th quadrant
-    add     cx, word [bp - y]
-    mov     dx, word [bp + circ_ym]
-    add     dx, word [bp - x]
-    int     10h
+    mov     si, word [bp + circ_ym]     ; 4th quadrant
+    add     si, word [bp - x]
+    mov     di, si
+    shl     di, 8
+    shl     si, 6
+    add     di, si
+    mov     si, word [bp + circ_xm]
+    add     si, word [bp - y]
+    add     di, si
+    stosb
 
+;____________________
     mov     si, word [bp - err]         ; r = err
     mov     [bp + circ_r], si
 
     mov     si, word [bp + circ_r]      ; if (r <= y) err += ++y*2+1;
     cmp     si, word [bp - y]
     jg      circle_test2
-    add     [bp - y], word 1d
+    inc     word [bp - y]
     mov     si, word [bp - y]
     add     si, si
     inc     si
@@ -100,20 +135,22 @@ circle_test2:
     jmp     circle_test_exit
 
 circle_test2_execute:
-    add     [bp - x], word 1d           ; err += ++x*2+1
+    inc     word [bp - x]               ; err += ++x*2+1
     mov     si, word [bp - x]
     add     si, si
     inc     si
     add     [bp - err], si
 
+;____________________
 circle_test_exit:
-    mov     si, [bp - x]                ; if (x < 0) break;
-    cmp     si, word 0d
+    cmp     [bp - x], word 0            ; if (x < 0) break;
     jl      Draw_Circle_Repeat
 
-    pop     si
     pop     dx
     pop     cx
     pop     ax
+    pop     si
+    pop     di
+    pop     es
     leave
     ret 8
