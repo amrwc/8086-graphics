@@ -3,13 +3,11 @@
 ; y0: [bp + 10] -> [bp + rect_y0]
 ;  w: [bp + 8]  -> [bp + rect_w]
 ;  h: [bp + 6]  -> [bp + rect_h]
-; px: [bp + 4]  -> [bp + px_set]
 
-%assign rect_x0 12
-%assign rect_y0 10
-%assign rect_w  8
-%assign rect_h  6
-%assign px_set  4
+%assign rect_x0 10
+%assign rect_y0 8
+%assign rect_w  6
+%assign rect_h  4
 
 Graphics_Rectangle_Main:
     push    bp
@@ -103,7 +101,7 @@ rectangle_menu_option5:
 
     pop     ax
     leave
-    ret 10
+    ret 8
     
 rectangle_menu_option6:                 ; Use default coordinates
     cmp     ah, 07h
@@ -124,7 +122,7 @@ end_rectangle_menu:
 
     pop     ax
     leave
-    ret 10
+    ret 8
 
 ;____________________
 Graphics_Rectangle_Menu:
