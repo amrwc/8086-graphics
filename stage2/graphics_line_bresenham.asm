@@ -1,4 +1,4 @@
-; 8086 Assembly Bresenham’s line drawing algorithm.
+; 8086 Assembly Bresenham’s line drawing algorithm implementation.
 ; Pseudo-code:
 ;
 ; function drawLine(x0, y0, x1, y1, colour)
@@ -129,11 +129,7 @@ Draw_Line_Loop_Repeat:
     cmp     dx, word [bp + y1]
     jne     Loop_Continue
 
-; Reset direction arguments. Only necessary for the menu to work correctly.
-    mov     [bp - sx], word 1d          ; break
-    mov     [bp - sy], word 1d
-
-end_draw_line:
+end_draw_line:                          ; break
     pop     si
     pop     dx
     pop     cx
