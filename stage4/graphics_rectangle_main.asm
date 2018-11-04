@@ -1,8 +1,8 @@
 ; Input:
-; x0: [bp + 12]
-; y0: [bp + 10]
-;  w: [bp + 8]
-;  h: [bp + 6]
+; x0: [bp + 10]
+; y0: [bp + 8]
+;  w: [bp + 6]
+;  h: [bp + 4]
 
 Graphics_Rectangle_Main:
     push    bp

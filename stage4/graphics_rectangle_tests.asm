@@ -24,6 +24,7 @@ is_rect_height_negative:
     jmp     is_rect_height_over_200
 rect_new_height:
     mov     [bp + rect_h], word 1d
+    jmp     is_rect_x0_negative
 is_rect_height_over_200:
     cmp     [bp + rect_h], word 200d    ; if (h > 200) h = 200;
     jle     is_rect_x0_negative
