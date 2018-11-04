@@ -1,3 +1,5 @@
+%assign px_set  4
+
 Graphics_Colour_Menu:
     push    bp
     mov     bp, sp
