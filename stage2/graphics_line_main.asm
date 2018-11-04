@@ -5,8 +5,8 @@
 ; y1: [bp + 4]
 
 Graphics_Line_Main:
-    push	bp
-	mov		bp, sp
+    push    bp
+    mov     bp, sp
     push    ax
 
 return_line_menu:
@@ -117,8 +117,6 @@ end_main_menu:
 
 ;____________________
 Graphics_Line_Menu:
-    push    si
-
     push    word graphics_line_menu_greeting
     call    Console_WriteLine_16
     call    New_Line_16
@@ -142,7 +140,6 @@ Graphics_Line_Menu:
     push    word graphics_menu_prompt_exit
     call    Console_WriteLine_16
 
-    pop     si
     ret
 
 ;____________________
