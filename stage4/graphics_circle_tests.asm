@@ -1,12 +1,12 @@
 Graphics_Circle_Tests:
     push    si
 
-;is_radius_negative:
+;is_circle_radius_negative:
     cmp     [bp + circ_r], word 0d      ; if (r < 0) r = -r;
-    jge     is_radius_beyond_screen
+    jge     is_circle_radius_beyond_screen
     neg     word [bp + circ_r]
 
-is_radius_beyond_screen:
+is_circle_radius_beyond_screen:
     cmp     [bp + circ_r], word 99d     ; if (r > 99) r = 99;
     jle     is_circ_xm_negative
     mov     [bp + circ_r], word 99d
