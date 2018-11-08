@@ -24,7 +24,30 @@
 ; Input:
 ; dw x0, x1, y0, y1
 
+%include "graphics_line_test_boundaries.asm"
+%include "graphics_line_test_straight.asm"
+%include "graphics_line_straight.asm"
+
 Bresenham_Main:
+; Tests
+    call    Graphics_Line_Test_Boundaries
+    mov     [straight_line], byte 0     ; Reset on subsequent runs.
+    call    Graphics_Line_Test_Straight
+
+    cmp     [straight_line], byte 1d
+    jl      Draw_Bresenham
+    je      Draw_Horizontal
+
+;Draw_Vertical:
+    call    Graphics_Line_Vertical
+    jmp     end_draw_line
+
+Draw_Horizontal:
+    call    Graphics_Line_Horizontal
+    jmp     end_draw_line
+
+Draw_Bresenham:
+;____________________
 ; Delta X
     mov     ax, word [x1]
     sub     ax, word [x0]
@@ -74,6 +97,7 @@ Draw_Line_Loop_Repeat:
     cmp     dx, word [y1]
     jne     Loop_Continue
 
+end_draw_line:
 ; Reset direction arguments. Only necessary for the menu to work correctly.
     mov     [sx], word 1d
     mov     [sy], word 1d
@@ -115,3 +139,5 @@ Update_Column:
     delta_y: dw 0
     err: dw 0
     e2: dw 0
+
+    straight_line: db 0

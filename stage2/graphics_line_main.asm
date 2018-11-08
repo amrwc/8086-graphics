@@ -93,7 +93,7 @@ main_menu_option5:
     push    word 0C0Fh
     call    Bresenham_Main
 
-    call    Graphics_Done               ; Skip colour menu and tests.
+    call    Graphics_Done
     jmp     return_line_menu
     
 main_menu_option6:                      ; Use default coordinates

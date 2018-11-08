@@ -5,13 +5,13 @@ ORG 9000h
 %include "graphics_line.asm"
 %include "graphics_colour_menu.asm"
 
+; Assignment Stage 2 -- draw a line using Bresenham’s algorithm,
+; but pass the values using the stack frame.
 Stage_2_Start:
     push    word horizontal_line
     call    Console_WriteLine_16
     call    New_Line_16
 
-; Assignment Stage 2 -- draw a line using Bresenham’s algorithm,
-; but pass the values using the stack frame.
     call    Graphics_Line
 
 ;____________________
