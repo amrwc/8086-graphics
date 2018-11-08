@@ -5,7 +5,7 @@ ORG 7C00h
 start:
     jmp     Real_Mode_Start
 
-%include "print_functions_16.asm"
+%include "print_functions_16_SF.asm"
 
 Real_Mode_Start:
     cli
@@ -21,7 +21,7 @@ Real_Mode_Start:
     mov     ax, 0003h                   ; Clear screen.
     int     10h
 
-    mov     si, boot_message            ; Display the greeting.
+    push    word boot_message           ; Display the greeting.
     call    Console_WriteLine_16
 
     mov     ah, 2                       ; BIOS Read sector functions_16
@@ -40,11 +40,11 @@ Real_Mode_Start:
 
 ;____________________
 Read_Failed:
-    mov     si, read_failed_msg
+    push    word read_failed_msg
     call    Console_WriteLine_16
 
 Quit_Boot:
-    mov     si, cannot_continue         ; Display 'Cannot continue' message
+    push    word cannot_continue        ; Display 'Cannot continue' message
     call    Console_WriteLine_16
 
     hlt
