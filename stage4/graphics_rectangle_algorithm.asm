@@ -11,7 +11,7 @@
 %assign rect_h  6
 %assign px_set  4
 
-%assign circ_next_row 2
+%assign rect_next_row 2
 
 %include "graphics_rectangle_tests.asm"
 
@@ -43,7 +43,7 @@ Graphics_Rectangle_Algorithm:
 
     mov     si, 320d                    ; Row incrementer
     sub     si, [bp + rect_w]
-    mov     [bp - circ_next_row], si
+    mov     [bp - rect_next_row], si
 
     mov     ax, [bp + px_set]           ; Colour
     xor     si, si                      ; Loop index
@@ -53,7 +53,7 @@ Graphics_Rectangle_Algorithm:
 Draw_Rectangle_Repeat:
     mov     cx, [bp + rect_w]           ; Reset the counter.
     rep     stosb                       ; Place AL (colour byte) at DI (screen offset).
-    add     di, [bp - circ_next_row]    ; Go to the next row.
+    add     di, [bp - rect_next_row]    ; Go to the next row.
 
     inc     si
     cmp     si, word [bp + rect_h]      ; if (SI > height) break;
