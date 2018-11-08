@@ -13,7 +13,7 @@ Graphics_Line_Test_Straight:
     mov     si, word [bp + x0]          ; if (x0 != x1) jmp is_horizontal;
     cmp     si, word [bp + x1]
     jne     is_horizontal
-    mov     si, word [bp + y0]          ; if (y0 != y1) jmp is_vertical;
+    mov     si, word [bp + y0]          ; if (y0 == y1) break;
     cmp     si, word [bp + y1]
     je      end_line_test_straight
     mov     [bp - straight], word 2d    ; Draw vertical
