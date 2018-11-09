@@ -15,6 +15,7 @@ boot2.bin: boot2.asm print_functions_16_SF.asm graphics_main.asm\
 graphics_rectangle.asm graphics_rectangle_main.asm graphics_rectangle_algorithm.asm graphics_rectangle_tests.asm\
 graphics_circle.asm graphics_circle_main.asm graphics_circle_algorithm.asm graphics_circle_tests.asm\
 graphics_rect_circ.asm\
+graphics_ellipse.asm graphics_ellipse_main.asm graphics_ellipse_algorithm.asm\
 graphics_colour_menu.asm
 
 $(IMAGE).img: boot.bin boot2.bin
