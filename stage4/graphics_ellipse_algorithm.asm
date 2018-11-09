@@ -61,8 +61,6 @@
 %assign err     12
 %assign e2      14
 
-;%include "graphics_ellipse_tests.asm" ; CREATE TESTS
-
 Graphics_Ellipse_Algorithm:
     push    bp
     mov     bp, sp
@@ -76,8 +74,6 @@ Graphics_Ellipse_Algorithm:
 
 ;____________________
 ; Setup
-    ;call    Graphics_Ellipse_Tests
-
     mov     ax, word [bp + ellipse_x1]  ; a = abs(x1 - x0)
     sub     ax, word [bp + ellipse_x0]
     cwd
