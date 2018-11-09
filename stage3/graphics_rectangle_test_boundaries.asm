@@ -1,7 +1,7 @@
 Graphics_Rectangle_Test_Boundaries:
     push    si
 
-is_rect_x0_negative:
+;is_rect_x0_negative:
     cmp     [bp + rect_x0], word 0
     jg      is_rect_x0_over_319
     je      is_row_end_beyond_boundary
