@@ -19,3 +19,14 @@
 
 ## Build
 If you intend to use 'make run' command, you need to set the right path in the makefile.
+
+## Resources
+* [Complete 8086 instruction set](http://www.gabrielececchetti.it/Teaching/CalcolatoriElettronici/Docs/i8086_instruction_set.pdf)
+* [Interrupt Jump Table](http://www.ctyme.com/intr/int.htm)
+* [Keyboard scan codes](http://www.ee.bgu.ac.il/~microlab/MicroLab/Labs/ScanCodes.htm)
+* [The Beauty of Bresenham's Algorithm](http://members.chello.at/~easyfilter/bresenham.html)
+* [VGA Basics](http://www.brackeen.com/vga/basics.html)
+* [Graphics with Direct Memory Access](http://www.skynet.ie/~darkstar/assembler/tut7.html)
+* [File I/O in Real-Address Mode](http://kipirvine.com/asm/articles/FileIO16.pdf)
+* [Simplified Windows BMP Bitmap File Format Specification](http://www.dragonwins.com/domains/getteched/bmp/bmpfileformat.htm)
+* [Michael Abrash’s Graphics Programming Black Book](http://www.jagregory.com/abrash-black-book/)
