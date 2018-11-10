@@ -12,7 +12,8 @@ IMAGE=uodos
 	
 boot.bin: boot.asm print_functions_16_SF.asm
 boot2.bin: boot2.asm print_functions_16_SF.asm graphics_main.asm\
-graphics_animation.asm animation_circle_q1.asm animation_circle_q2.asm animation_circle_q3.asm animation_circle_q4.asm animation_circle_finish.asm
+animation_circle.asm animation_circle_q1.asm animation_circle_q2.asm animation_circle_q3.asm animation_circle_q4.asm animation_circle_finish.asm\
+print_functions_graphics.asm
 
 $(IMAGE).img: boot.bin boot2.bin
 #	Get the blank disk image
