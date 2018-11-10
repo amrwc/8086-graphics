@@ -25,7 +25,7 @@ Animation_Circle_Finish:
 
 Animation_Circle_Finish_Repeat:
     xor     cx, cx                      ; Delay
-    mov     dx, 01000h
+    mov     dx, 0750h
     mov     ah, 86h
     int 15h
 

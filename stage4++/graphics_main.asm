@@ -1,4 +1,5 @@
-%include "graphics_animation.asm"
+%include "animation_circle.asm"
+%include "print_functions_graphics.asm"
 
 Graphics_Main:
     call    Graphics_Main_Menu
@@ -15,7 +16,7 @@ main_menu_get_key:
 main_menu_option1:
     cmp     ah, 02h
     jne     main_menu_get_key
-    call    Graphics_Animation
+    call    Animation_Circle
     jmp     Graphics_Main
 
 ;____________________
@@ -61,5 +62,7 @@ Graphics_Main_Menu:
 ; Data
 graphics_line_menu_greeting: db 'Stage 4++: Features that did not fit in Stage 4.', 0
 graphics_main_menu_prompt: db 'Choose one of the options below:', 0
-graphics_main_menu_option1: db '1: Animation', 0
+graphics_main_menu_option1: db '1: Circle animation', 0
 graphics_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0
+
+press_any_key: db 'Press any key to return...', 0
