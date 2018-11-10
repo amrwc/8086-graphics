@@ -1,4 +1,4 @@
-%assign circ_xm 8 ; Circle
+%assign circ_xm 8
 %assign circ_ym 6
 %assign circ_r  4
 
@@ -15,7 +15,7 @@
 Animation_Circle:
     call    Graphics_Set_Display_Mode
 
-    push    word 130d  ; xm             ; Circle's parameters
+    push    word 130d  ; xm
     push    word 110d  ; ym
     push    word 50d   ; r
     call    Animation_Circle_Q4
