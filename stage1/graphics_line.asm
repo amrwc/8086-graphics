@@ -4,7 +4,7 @@
 Graphics_Line:
     mov     [x0], word 27d              ; DEFAULT COORDINATES
     mov     [y0], word 170d             ; This stage uses labels, therefore
-    mov     [x1], word 300d             ; these values are only guaranteed
+    mov     [x1], word 300d             ; option 6 is only guaranteed
     mov     [y1], word 170d             ; to work on the first run.
     call    Graphics_Line_Main
 
@@ -41,4 +41,4 @@ Graphics_Setup:
 
     pixel_colour: db 0
 
-graphics_menu_prompt_exit: db 'Press (ESC) to leave Line Drawing', 0
+graphics_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0
