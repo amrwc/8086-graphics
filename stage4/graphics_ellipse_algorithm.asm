@@ -147,7 +147,6 @@ skip_swap_y:
 
     mov     si, 0A000h                  ; Segment of display memory
     mov     es, si
-    mov     cx, word 1d                 ; Set stosb counter to 1
     mov     ax, word [bp + px_set]      ; Set colour
 
 ;____________________
@@ -158,7 +157,7 @@ Draw_Ellipse_Repeat:
     shl     di, 8
     add     di, si
     add     di, word [bp + ellipse_x1]
-    stosb
+    mov     byte [es:di], al            ; Plot pixel to the calculated location.
 
     mov     si, word [bp + ellipse_y0]  ; setPixel(x0, y0); /*  II. Quadrant */
     shl     si, 6
@@ -166,7 +165,7 @@ Draw_Ellipse_Repeat:
     shl     di, 8
     add     di, si
     add     di, word [bp + ellipse_x0]
-    stosb
+    mov     byte [es:di], al
 
     mov     si, word [bp + ellipse_y1]  ; setPixel(x0, y1); /* III. Quadrant */
     shl     si, 6
@@ -174,7 +173,7 @@ Draw_Ellipse_Repeat:
     shl     di, 8
     add     di, si
     add     di, word [bp + ellipse_x0]
-    stosb
+    mov     byte [es:di], al
 
     mov     si, word [bp + ellipse_y1]  ; setPixel(x1, y1); /*  IV. Quadrant */
     shl     si, 6
@@ -182,7 +181,7 @@ Draw_Ellipse_Repeat:
     shl     di, 8
     add     di, si
     add     di, word [bp + ellipse_x1]
-    stosb
+    mov     byte [es:di], al
 
     mov     si, word [bp - err]         ; e2 = 2*err
     shl     si, 1
@@ -239,7 +238,7 @@ Draw_Ellipse_Finish:
     mov     si, word [bp + ellipse_x0]
     dec     si
     add     di, si
-    stosb
+    mov     byte [es:di], al
 
     mov     si, word [bp + ellipse_y0]  ; setPixel(x1+1, y0++);
     shl     si, 6
@@ -249,7 +248,7 @@ Draw_Ellipse_Finish:
     mov     si, word [bp + ellipse_x1]
     inc     si
     add     di, si
-    stosb
+    mov     byte [es:di], al
     inc     word [bp + ellipse_y0]
 
     mov     si, word [bp + ellipse_y1]  ; setPixel(x0-1, y1);
@@ -260,7 +259,7 @@ Draw_Ellipse_Finish:
     mov     si, word [bp + ellipse_x0]
     dec     si
     add     di, si
-    stosb
+    mov     byte [es:di], al
 
     mov     si, word [bp + ellipse_y1]  ; setPixel(x1+1, y1--);
     shl     si, 6
@@ -270,7 +269,7 @@ Draw_Ellipse_Finish:
     mov     si, word [bp + ellipse_x1]
     inc     si
     add     di, si
-    stosb
+    mov     byte [es:di], al
     dec     word [bp + ellipse_y1]
 
     jmp     Draw_Ellipse_Finish

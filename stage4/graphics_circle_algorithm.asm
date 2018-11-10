@@ -63,7 +63,6 @@ Graphics_Circle_Algorithm:
 
     mov     si, 0A000h                  ; Segment of display memory
     mov     es, si
-    mov     cx, word 1d                 ; Set stosb counter to 1
     mov     ax, word [bp + px_set]      ; Set colour
 
 ;____________________
@@ -77,7 +76,7 @@ Draw_Circle_Repeat:
     mov     si, word [bp + circ_xm] ;x
     sub     si, word [bp - x]
     add     di, si                      ; di += x
-    stosb
+    mov     byte [es:di], al            ; Plot pixel to the calculated location.
 
     mov     si, word [bp + circ_ym]     ; 2nd quadrant
     sub     si, word [bp - x]
@@ -88,7 +87,7 @@ Draw_Circle_Repeat:
     mov     si, word [bp + circ_xm]
     sub     si, word [bp - y]
     add     di, si
-    stosb
+    mov     byte [es:di], al
 
     mov     si, word [bp + circ_ym]     ; 3rd quadrant
     sub     si, word [bp - y]
@@ -99,7 +98,7 @@ Draw_Circle_Repeat:
     mov     si, word [bp + circ_xm]
     add     si, word [bp - x]
     add     di, si
-    stosb
+    mov     byte [es:di], al
 
     mov     si, word [bp + circ_ym]     ; 4th quadrant
     add     si, word [bp - x]
@@ -110,7 +109,7 @@ Draw_Circle_Repeat:
     mov     si, word [bp + circ_xm]
     add     si, word [bp - y]
     add     di, si
-    stosb
+    mov     byte [es:di], al
 
 ;____________________
     mov     si, word [bp - err]         ; r = err
