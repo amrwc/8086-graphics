@@ -3,17 +3,17 @@
 %assign triangle_h 4
 
 %assign tri_line_st 2                   ; Triangle's line start
-%assign tri_line_ln 4                   ; Triangle's line length
+%assign tri_line_ln 4                   ; Triangle's length
 
-%include "triangle_algorithm.asm"
+%include "triangle_obtuse_algorithm.asm"
 
-Triangle:
+Triangle_Obtuse:
     call    Graphics_Set_Display_Mode
 
-    push    word 160d                   ; peak x
+    push    word 310d                   ; peak x
     push    word 50d                    ; peak y
     push    word 100d                   ; height
-    call    Triangle_Algorithm
+    call    Triangle_Obtuse_Algorithm
 
     push    word 0
     push    word 24d
