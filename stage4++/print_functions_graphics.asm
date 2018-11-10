@@ -1,9 +1,9 @@
 Console_Write_16_Graphics:
-    push 	bp
-	mov		bp, sp
-	push	si
-	push	ax
-	mov		si, [bp + 4]                ; SI: beginning of the string.
+    push    bp
+    mov     bp, sp
+    push    si
+    push    ax
+    mov     si, [bp + 4]                ; SI: beginning of the string.
     mov     ah, 9d                      ; Output character instruction.
     xor     bh, bh
     mov     bl, 0Fh                     ; Colour
@@ -21,10 +21,10 @@ Console_Write_16_Graphics_Repeat:
     jmp     Console_Write_16_Graphics_Repeat
 
 Console_Write_16_Graphics_Done:
-    pop		ax
-	pop		si
-	leave
-    ret		6
+    pop     ax
+    pop     si
+    leave
+    ret 6
 
 Console_Write_16_Graphics_Gotoxy:
     push    ax
