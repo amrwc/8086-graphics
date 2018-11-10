@@ -64,6 +64,9 @@ Graphics_Done:
 
 ;____________________
 Graphics_Main_Menu:
+    push    word graphics_line_menu_greeting
+    call    Console_WriteLine_16
+    call    New_Line_16
     push    word graphics_main_menu_prompt
     call    Console_WriteLine_16
 
@@ -84,6 +87,7 @@ Graphics_Main_Menu:
 
 ;____________________
 ; Data
+graphics_line_menu_greeting: db 'Stage 4: Rectangle and circle drawing algorithms implementations using direct writing to VRAM.', 0
 graphics_main_menu_prompt: db 'Choose a shape:', 0
 graphics_main_menu_option1: db '1: Rectangle', 0
 graphics_main_menu_option2: db '2: Circle', 0

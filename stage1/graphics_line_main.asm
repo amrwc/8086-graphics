@@ -127,7 +127,7 @@ Graphics_Line_Menu:
 
 ;____________________
 ; Data
-graphics_line_menu_greeting: db 'Bresenham`s line drawing algorithm implementation', 0
+graphics_line_menu_greeting: db 'Stage 1: Bresenham`s line drawing algorithm implementation.', 0
 graphics_line_menu_prompt: db 'Choose one of the options below:', 0
 graphics_line_menu_option1: db '1: (10, 20) -> (310, 180)', 0
 graphics_line_menu_option2: db '2: (280, 15) -> (40, 195)', 0
