@@ -2,6 +2,7 @@
 %include "graphics_circle.asm"
 %include "graphics_rect_circ.asm"
 %include "graphics_ellipse.asm"
+%include "graphics_animation.asm"
 %include "graphics_colour_menu.asm"
 
 Graphics_Main:
@@ -36,8 +37,14 @@ main_menu_option3:
 
 main_menu_option4:
     cmp     ah, 05h
-    jne     main_menu_get_key
+    jne     main_menu_option5
     call    Graphics_Ellipse
+    jmp     Graphics_Main
+
+main_menu_option5:
+    cmp     ah, 06h
+    jne     main_menu_get_key
+    call    Graphics_Animation
     jmp     Graphics_Main
 
 ;____________________
@@ -78,6 +85,8 @@ Graphics_Main_Menu:
     call    Console_WriteLine_16
     push    word graphics_main_menu_option4
     call    Console_WriteLine_16
+    push    word graphics_main_menu_option5
+    call    Console_WriteLine_16
 
     call    New_Line_16
     push    word graphics_menu_prompt_exit
@@ -93,4 +102,5 @@ graphics_main_menu_option1: db '1: Rectangle', 0
 graphics_main_menu_option2: db '2: Circle', 0
 graphics_main_menu_option3: db '3: Both a rectangle and a circle -- Vitruvian Man', 0
 graphics_main_menu_option4: db '4: Ellipse', 0
+graphics_main_menu_option5: db '5: Animation', 0
 graphics_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0
