@@ -23,7 +23,7 @@ If you intend to use 'make run' command, you need to set the right path in the m
 ## Vitruvian Man
 When you fail to load a bitmap and decide to create your own picture:
 
-![Vitruvian Man screenshot](https://gitlab.com/amrw/8086-graphics/raw/master/Vitruvian-Man.bmp "Vitruvian Man screenshot")
+![Vitruvian Man screenshot](https://gitlab.com/amrw/8086-graphics/raw/master/assets/Vitruvian-Man.bmp "Vitruvian Man screenshot")
 
 ## Resources
 * [Complete 8086 instruction set](http://www.gabrielececchetti.it/Teaching/CalcolatoriElettronici/Docs/i8086_instruction_set.pdf)
