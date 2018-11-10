@@ -4,15 +4,18 @@
 %assign px_set   4
 
 Graphics_Animation:
-    push    word 100d                   ; Parameters
-    push    word 100d
-    push    word 100d
-    push    word 0C0Fh
-
     call    Graphics_Set_Display_Mode
-    call    Graphics_Animation_Algorithm
-    call    Graphics_Done
 
+    push    word 58d   ; x0             ; Line's parameters
+    push    word 100d  ; y0
+    push    word 200d  ; length
+    push    word 0C0Fh ; colour
+    call    Graphics_Animation_Algorithm
+
+    push    word check_stage_4_plus
+    call    Console_Write_16_Graphics
+
+    call    Graphics_Done
     ret
 
 Graphics_Animation_Algorithm:
@@ -43,7 +46,7 @@ Animation_Repeat:
     stosb
 
     xor     cx, cx                      ; Delay
-    mov     dx, 01FFFh
+    mov     dx, 01000h
     mov     ah, 86h
     int 15h
 
@@ -51,8 +54,6 @@ Animation_Repeat:
     cmp     [bp + anim_len], word 0
     jge     Animation_Repeat
 
-;____________________
-; Return
     pop     dx
     pop     cx
     pop     ax
@@ -61,3 +62,52 @@ Animation_Repeat:
     pop     es
     leave
     ret 8
+
+;____________________
+Console_Write_16_Graphics:
+    push 	bp
+	mov		bp, sp
+	push	si
+	push	ax
+	mov		si, [bp + 4]                ; SI: beginning of the string.
+    mov     ah, 9d                      ; Output character instruction.
+    xor     bh, bh
+    mov     bl, 0Ch                     ; Colour
+    mov     cx, 1d
+
+Console_Write_16_Graphics_Repeat:
+    call    Console_Write_16_Graphics_Gotoxy
+    inc     byte [cursor_x]
+    mov     al, [si]                    ; Assign value from SI memory address.
+    inc     si                          ; si++
+    inc     dx                          ; Increase column
+    test    al, al                      ; if (AL == 0) break;
+    je      Console_Write_16_Graphics_Done
+    int     10h                         ; Output the current character.
+    jmp     Console_Write_16_Graphics_Repeat
+
+Console_Write_16_Graphics_Done:
+    pop		ax
+	pop		si
+	leave
+    ret		2
+
+Console_Write_16_Graphics_Gotoxy:
+    push    ax
+    push    bx
+    push    dx
+
+    mov     ah, 2d                      ; Set cursor position instruction
+    mov     bh, 0                       ; Page number
+    mov     dl, byte [cursor_x]
+    mov     dh, byte [cursor_y]
+    int     10h
+    
+    pop     dx
+    pop     bx
+    pop     ax
+    ret
+
+cursor_x: db 7d
+cursor_y: db 10d
+check_stage_4_plus: db 'Please check out Stage 4++', 0
