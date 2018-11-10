@@ -1,5 +1,6 @@
 %include "animation_circle.asm"
 %include "triangle.asm"
+%include "triangle_obtuse.asm"
 %include "print_functions_graphics.asm"
 
 Graphics_Main:
@@ -22,8 +23,14 @@ main_menu_option1:
 
 main_menu_option2:
     cmp     ah, 03h
-    jne     main_menu_get_key
+    jne     main_menu_option3
     call    Triangle
+    jmp     Graphics_Main
+
+main_menu_option3:
+    cmp     ah, 04h
+    jne     main_menu_get_key
+    call    Triangle_Obtuse
     jmp     Graphics_Main
 
 ;____________________
@@ -60,6 +67,8 @@ Graphics_Main_Menu:
     call    Console_WriteLine_16
     push    word graphics_main_menu_option2
     call    Console_WriteLine_16
+    push    word graphics_main_menu_option3
+    call    Console_WriteLine_16
 
     call    New_Line_16
     push    word graphics_menu_prompt_exit
@@ -73,6 +82,7 @@ graphics_line_menu_greeting: db 'Stage 4++: Features that did not fit in Stage 4
 graphics_main_menu_prompt: db 'Choose one of the options below:', 0
 graphics_main_menu_option1: db '1: Circle animation', 0
 graphics_main_menu_option2: db '2: Triangle drawing', 0
+graphics_main_menu_option3: db '3: Obtuse triangle drawing', 0
 graphics_menu_prompt_exit: db 'Press (ESC) to exit the program.', 0
 
 press_any_key: db 'Press any key to return...', 0
