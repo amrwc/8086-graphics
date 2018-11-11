@@ -1,3 +1,51 @@
+# Graphics in x86 assembly
+16-bit x86 assembly program that plots graphics primitives on screen in video mode 13h.
+
+The project was a part of Systems Programming module.
+
+## Features
+Each stage was built on top of the previous one. Therefore, a gradual improvement can be seen.
+
+##### Stage 1
+1. Bresenham's line drawing algorithm
+* Plotting pixels with int 10h,
+* coordinates passed using labels and registers.
+
+##### Stage 2
+1. Bresenham's line drawing algorithm
+* Coordinates passed using stack frame,
+* preserving registers' values.
+
+##### Stage 3
+1. Bresenham's circle drawing algorithm,
+1. rectangle drawing algorithm,
+* Variables stored using stack frame.
+
+##### Stage 4
+1. Bresenham's circle drawing algorithm,
+1. rectangle drawing algorithm,
+1. Vitruvian Man (see below),
+1. ellipse drawing algorithm,
+* Plotting pixels by storing bytes directly in VRAM (stosb).
+
+##### Stage 4++
+1. Circle animation.
+1. Isosceles triangle.
+1. Obtuse triangle.
+* Using int 15h for delay to achieve animation
+
+Stage 4++ contains additional features that could not fit in Stage 4 due to the 3.5KB binary size limitation.
+
+### Feature ideas
+- [x] Vitruvian Man,
+- [ ] load and display a bitmap,
+- [x] ellipse,
+- [x] animation,
+- [x] triangle,
+- [x] text in graphics mode,
+- [ ] mouse interaction,
+- [ ] custom colour palette.
+
 ## Setup
 
 #### Windows
