@@ -75,6 +75,9 @@ Console_Write_16_Graphics:
     mov     bl, 0Ch                     ; Colour
     mov     cx, 1d
 
+    mov     [cursor_x], byte 7d
+    mov     [cursor_y], byte 10d
+
 Console_Write_16_Graphics_Repeat:
     call    Console_Write_16_Graphics_Gotoxy
     inc     byte [cursor_x]
@@ -108,6 +111,6 @@ Console_Write_16_Graphics_Gotoxy:
     pop     ax
     ret
 
-cursor_x: db 7d
-cursor_y: db 10d
+cursor_x: db 0
+cursor_y: db 0
 check_stage_4_plus: db 'Please check out Stage 4++', 0
