@@ -1,5 +1,5 @@
 # Graphics in x86 assembly
-16-bit x86 assembly program that plots graphics primitives on screen in video mode 13h.
+16-bit x86 assembly program that plots geometric primitives on screen in video mode 13h.
 
 The project was a part of Systems Programming module.
 
