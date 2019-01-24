@@ -24,7 +24,7 @@ Each stage was built on top of the previous one. Therefore, a gradual improvemen
 ##### Stage 4
 1. Bresenham's circle drawing algorithm,
 1. rectangle drawing algorithm,
-1. Vitruvian Man (see below),
+1. [Vitruvian Man](#vitruvian-man),
 1. ellipse drawing algorithm,
 * Plotting pixels by storing bytes directly in VRAM (stosb).
 
